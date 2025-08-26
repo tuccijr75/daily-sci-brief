@@ -1,97 +1,191 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <title>Science & AI Brief</title>
-  <meta name="viewport" content="width=device-width,initial-scale=1">
-  <style>
-    :root { --bg:#0f1115; --card:#161922; --ink:#e8ebf2; --muted:#aab3c2; --line:#242a36; --accent:#77b7ff; }
-    * { box-sizing: border-box; }
-    body { margin:0; background:var(--bg); color:var(--ink); font: 15px/1.45 system-ui, -apple-system, Segoe UI, Roboto, Arial; }
-    header { position:sticky; top:0; z-index:2; background:rgba(15,17,21,.7); backdrop-filter:saturate(1.2) blur(8px); border-bottom:1px solid var(--line); padding:14px 16px; display:flex; align-items:center; gap:12px; flex-wrap:wrap; }
-    h1 { margin:0; font-size:18px; }
-    #stamp { margin-left:auto; color:var(--muted); font-size:13px; }
-    main { padding: 10px 14px 40px; max-width: 980px; margin: 0 auto; }
-    h2 { margin: 22px 6px 10px; font-size: 16px; color:#cfe3ff; }
-    .card { background: var(--card); border:1px solid var(--line); border-radius:14px; padding:14px; margin:10px 6px; }
-    .meta { color:var(--muted); font-size:13px; display:flex; gap:10px; flex-wrap:wrap; }
-    .tag  { border:1px solid var(--line); border-radius:999px; padding:2px 8px; font-size:12px; color:#cfe3ff; }
-    .title { margin:8px 0; font-weight:650; font-size:16px; line-height:1.35; }
-    a { color: var(--accent); text-decoration:none; }
-    .summary { color:#e8edf3; margin-top:4px; }
-    .bullets { margin:10px 0 0 18px; color:#d6deea; }
-    .chips { width:100%; display:flex; gap:8px; flex-wrap:wrap; padding-top:4px; }
-    .chip { background:#131722; color:#dbe4ee; border:1px solid var(--line); border-radius:999px; padding:6px 10px; font-size:13px; cursor:pointer; }
-    .chip.active { outline:2px solid var(--accent); }
-  </style>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>Science & AI Brief</title>
+<style>
+  :root{--bg:#0f1115;--panel:#121622;--card:#161a26;--line:#252b39;--ink:#e9edf6;--muted:#a9b4c6;--accent:#7bb4ff}
+  *{box-sizing:border-box} html,body{margin:0;background:var(--bg);color:var(--ink);font:15px/1.45 system-ui,-apple-system,Segoe UI,Roboto,Arial}
+  header{position:sticky;top:0;z-index:10;background:rgba(18,22,34,.85);backdrop-filter:blur(10px);border-bottom:1px solid var(--line)}
+  .wrap{max-width:1100px;margin:0 auto;padding:12px}
+  .top{display:flex;gap:10px;align-items:center;flex-wrap:wrap}
+  h1{margin:0;font-size:18px}
+  #stamp{margin-left:auto;color:var(--muted);font-size:12px}
+  .controls{display:flex;gap:10px;flex-wrap:wrap;width:100%}
+  .tabs{display:flex;gap:8px;overflow:auto;padding:4px 0}
+  .tab{border:1px solid var(--line);background:#0f1320;color:#dbe6ff;padding:6px 10px;border-radius:999px;cursor:pointer;white-space:nowrap;font-size:13px}
+  .tab.active{outline:2px solid var(--accent)}
+  input[type="search"]{flex:1;min-width:200px;border:1px solid var(--line);background:#0e1220;color:var(--ink);border-radius:10px;padding:8px 10px}
+  select{border:1px solid var(--line);background:#0e1220;color:var(--ink);border-radius:10px;padding:8px 10px}
+  main{max-width:1100px;margin:0 auto;padding:14px}
+  .count{color:var(--muted);font-size:13px;margin:4px 6px 10px}
+  h2{margin:16px 6px 8px;font-size:15px;color:#cfe3ff}
+  .grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:10px}
+  .card{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:12px}
+  .title{font-weight:650;margin:4px 0 6px}
+  .title a{color:var(--accent);text-decoration:none}
+  .meta{display:flex;gap:8px;flex-wrap:wrap;color:var(--muted);font-size:12px}
+  .sum{color:#e9edf6;font-size:14px;margin:6px 0}
+  .bul{margin:8px 0 0 16px;color:#d6deea;font-size:13px}
+  .empty{color:var(--muted);padding:30px;text-align:center;border:1px dashed var(--line);border-radius:12px;background:var(--panel)}
+</style>
 </head>
 <body>
-  <header>
-    <h1>🔬 Science & AI Brief</h1>
-    <div id="stamp">loading…</div>
-    <div id="chips" class="chips"></div>
-  </header>
-  <main id="content"></main>
+<header>
+  <div class="wrap">
+    <div class="top">
+      <h1>🔬 Science & AI Brief</h1>
+      <div id="stamp">loading…</div>
+    </div>
+    <div class="controls">
+      <div id="tabs" class="tabs"></div>
+      <input id="q" type="search" placeholder="Search title/summary…" />
+      <select id="sort">
+        <option value="new">Newest</option>
+        <option value="score">Top score</option>
+      </select>
+    </div>
+  </div>
+</header>
 
-  <script>
-    const S = { data:null, active:new Set() };
-    const el = {
-      content: document.getElementById('content'),
-      chips:   document.getElementById('chips'),
-      stamp:   document.getElementById('stamp')
-    };
+<main>
+  <div class="count" id="count"></div>
+  <div id="content"></div>
+</main>
 
-    fetch('daily.json?t=' + Date.now())
-      .then(r => r.json())
-      .then(data => { S.data = data; el.stamp.textContent = "Updated " + new Date(data.generated_at).toLocaleString(); buildChips(); render(); })
-      .catch(() => { el.stamp.textContent = "Offline or failed to load."; });
+<script>
+const state = { data:null, active:"All", query:"", sort:"new", flat:[] };
 
-    function buildChips(){
-      el.chips.innerHTML = "";
-      for (const g of S.data.groups) {
-        const b = document.createElement('button');
-        b.className = 'chip';
-        b.textContent = g.category;
-        b.onclick = () => { toggleChip(g.category, b); };
-        el.chips.appendChild(b);
-      }
+const el = {
+  tabs:   document.getElementById('tabs'),
+  q:      document.getElementById('q'),
+  sort:   document.getElementById('sort'),
+  count:  document.getElementById('count'),
+  stamp:  document.getElementById('stamp'),
+  content:document.getElementById('content')
+};
+
+// Load JSON and init UI
+fetch('daily.json?t='+Date.now())
+  .then(r=>r.json())
+  .then(d=>{
+    state.data = d;
+    el.stamp.textContent = "Updated " + new Date(d.generated_at).toLocaleString();
+    state.flat = flatten(d);
+    buildTabs(d);
+    bind();
+    render();
+  })
+  .catch(()=>{ el.stamp.textContent = "Offline or failed to load."; });
+
+function flatten(d){
+  const out = [];
+  for(const g of d.groups){
+    for(const it of g.items){
+      out.push({...it, category:g.category});
     }
-    function toggleChip(cat, button){
-      if (S.active.has(cat)) { S.active.delete(cat); button.classList.remove('active'); }
-      else { S.active.add(cat); button.classList.add('active'); }
+  }
+  return out;
+}
+
+function buildTabs(d){
+  const cats = ["All", ...d.groups.map(g=>g.category)];
+  el.tabs.innerHTML = "";
+  for(const c of cats){
+    const b = document.createElement('button');
+    b.className = 'tab' + (c===state.active ? ' active':'');
+    b.textContent = c;
+    b.onclick = ()=>{
+      state.active = c;
+      Array.from(el.tabs.children).forEach(x=>x.classList.remove('active'));
+      b.classList.add('active');
       render();
-    }
+    };
+    el.tabs.appendChild(b);
+  }
+}
 
-    function render(){
-      el.content.innerHTML = "";
-      if(!S.data) return;
-      const groups = S.data.groups.filter(g => S.active.size===0 || S.active.has(g.category));
-      for (const g of groups) {
-        const h = document.createElement('h2');
-        h.textContent = g.category;
-        el.content.appendChild(h);
-        for (const it of g.items) el.content.appendChild(card(g.category, it));
-      }
-    }
+function bind(){
+  el.q.addEventListener('input', debounce(()=>{
+    state.query = el.q.value.trim().toLowerCase();
+    render();
+  }, 200));
+  el.sort.addEventListener('change', ()=>{
+    state.sort = el.sort.value;
+    render();
+  });
+}
 
-    function card(category, it){
-      const wrap = document.createElement('article'); wrap.className='card';
-      const meta = document.createElement('div'); meta.className='meta';
-      meta.innerHTML = `<span class="tag">${category}</span><span>${it.source_domain||""}</span><span>${it.published_ts? new Date(it.published_ts*1000).toLocaleDateString():""}</span>`;
-      const title = document.createElement('div'); title.className='title';
-      title.innerHTML = `<a href="${it.link}" target="_blank" rel="noopener">${escapeHtml(it.title)}</a>`;
-      const sum = document.createElement('div'); sum.className='summary';
-      sum.textContent = it.summary || it.summary_raw || "";
-      const ul = document.createElement('ul'); ul.className='bullets';
-      ul.innerHTML = [
-        `<li><strong>What’s new:</strong> ${escapeHtml(it.why_new||"")}</li>`,
-        `<li><strong>Why it matters:</strong> ${escapeHtml(it.why_matters||"")}</li>`,
-        `<li><strong>Caveats:</strong> ${escapeHtml(it.caveats||"")}</li>`
-      ].join("");
-      wrap.append(meta, title, sum, ul);
-      return wrap;
-    }
-    function escapeHtml(s){return String(s||"").replace(/[&<>"']/g, m=>({"&":"&amp;","<":"&lt;",">":"&gt;","\"":"&quot;","'":"&#039;"}[m]))}
-  </script>
+function render(){
+  const items = filtered();
+  el.count.textContent = `${items.length} result${items.length!==1?'s':''} ${state.active!=='All'?'in '+state.active:''}`;
+  if(items.length===0){
+    el.content.innerHTML = `<div class="empty">No matching items. Try clearing the search or switching tabs.</div>`;
+    return;
+  }
+
+  // Group by category and render grids
+  const byCat = {};
+  for(const it of items){ (byCat[it.category] ||= []).push(it); }
+  const cats = Object.keys(byCat);
+  cats.sort((a,b)=> a.localeCompare(b));
+  const frag = document.createDocumentFragment();
+
+  for(const c of cats){
+    const h = document.createElement('h2'); h.textContent = c;
+    const grid = document.createElement('div'); grid.className = 'grid';
+    for(const it of byCat[c]) grid.appendChild(card(it));
+    frag.append(h, grid);
+  }
+  el.content.innerHTML = '';
+  el.content.appendChild(frag);
+}
+
+function filtered(){
+  let arr = state.flat.slice();
+  if(state.active!=="All"){
+    arr = arr.filter(it=>it.category===state.active);
+  }
+  if(state.query){
+    const q = state.query;
+    arr = arr.filter(it =>
+      (it.title||"").toLowerCase().includes(q) ||
+      (it.summary||"").toLowerCase().includes(q) ||
+      (it.summary_raw||"").toLowerCase().includes(q)
+    );
+  }
+  if(state.sort==="new"){
+    arr.sort((a,b)=> (b.published_ts||0) - (a.published_ts||0));
+  }else{
+    arr.sort((a,b)=> (b.score||0) - (a.score||0));
+  }
+  return arr;
+}
+
+function card(it){
+  const wrap = document.createElement('article'); wrap.className='card';
+  const meta = document.createElement('div'); meta.className='meta';
+  meta.innerHTML = `
+    <span>${escape(it.source_domain||"")}</span>
+    <span>•</span>
+    <span>${it.published_ts ? new Date(it.published_ts*1000).toLocaleDateString() : ""}</span>
+  `;
+  const title = document.createElement('div'); title.className='title';
+  title.innerHTML = `<a target="_blank" rel="noopener" href="${it.link}">${escape(it.title||"")}</a>`;
+  const sum = document.createElement('div'); sum.className='sum'; sum.textContent = it.summary || it.summary_raw || "";
+  const ul = document.createElement('ul'); ul.className='bul';
+  ul.innerHTML = `
+    <li><strong>What’s new:</strong> ${escape(it.why_new||"")}</li>
+    <li><strong>Why it matters:</strong> ${escape(it.why_matters||"")}</li>
+    <li><strong>Caveats:</strong> ${escape(it.caveats||"")}</li>
+  `;
+  wrap.append(meta, title, sum, ul);
+  return wrap;
+}
+
+function escape(s){return String(s).replace(/[&<>"']/g,m=>({"&":"&amp;","<":"&lt;",">":"&gt;","\"":"&quot;","'":"&#039;"}[m]))}
+function debounce(fn,ms){let t;return (...a)=>{clearTimeout(t);t=setTimeout(()=>fn(...a),ms)}}
+</script>
 </body>
 </html>
