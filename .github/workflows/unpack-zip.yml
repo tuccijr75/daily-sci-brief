@@ -1,0 +1,27 @@
+name: Unpack ZIP into repo
+on:
+  workflow_dispatch:
+  push:
+    paths:
+      - "daily_sci_brief_v2.zip"
+
+jobs:
+  unzip:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Ensure layout
+        run: |
+          touch .nojekyll
+          mkdir -p docs scripts .github/workflows
+      - name: Unzip
+        run: |
+          sudo apt-get update && sudo apt-get install -y unzip
+          unzip -o daily_sci_brief_v2.zip
+      - name: Commit files
+        run: |
+          git config user.name "zip-bot"
+          git config user.email "zip-bot@example.com"
+          git add -A
+          git commit -m "Unpack ZIP into repo" || echo "No changes"
+          git push
