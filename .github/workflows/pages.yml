@@ -1,0 +1,51 @@
+name: Build & Deploy Pages (no commits)
+
+on:
+  workflow_dispatch:
+  schedule:
+    - cron: "15 10 * * *"  # runs daily at 10:15 UTC (~6:15am ET / adjust below if you want)
+
+permissions:
+  contents: read    # checkout
+  pages: write      # deploy
+  id-token: write   # OIDC for deploy-pages
+
+concurrency:
+  group: "pages"
+  cancel-in-progress: false
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Install deps
+        run: |
+          pip install feedparser requests python-dateutil tldextract beautifulsoup4
+
+      - name: Generate daily.json
+        run: |
+          python scripts/gather.py
+          test -f docs/daily.json && echo "Wrote docs/daily.json" || (echo "daily.json missing" && exit 1)
+
+      - name: Upload pages artifact
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: ./docs
+
+  deploy:
+    runs-on: ubuntu-latest
+    needs: build
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - id: deployment
+        uses: actions/deploy-pages@v4
