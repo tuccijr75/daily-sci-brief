@@ -1,0 +1,306 @@
+{
+  "generated_at": "2025-08-26T22:43:20.851085+00:00",
+  "count": 30,
+  "items": [
+    {
+      "id": "77f430b6587e08d1bac81f037d2685c05b61c6b9",
+      "title": "One-shot vaccines for HIV and covid",
+      "link": "https://www.technologyreview.com/2025/08/26/1121017/one-shot-vaccines-for-hiv-and-covid/",
+      "summary": "A team at MIT and the Scripps Research Institute has made important progress toward vaccines that can protect against HIV, and potentially other diseases, with a single dose. The researchers treated mice with a vaccine that combines two different adjuvants, materials that help stimulate the immune system—one incorporating a compound previously developed by Scripps professor…",
+      "source_domain": "technologyreview.com",
+      "published_ts": 1756242000,
+      "score": 7,
+      "tag": "AI/ML"
+    },
+    {
+      "id": "6d98c143e9dc46f8431b60a6c0442c04c5933f24",
+      "title": "PuzzleJAX: A Benchmark for Reasoning and Learning",
+      "link": "https://arxiv.org/abs/2508.16821",
+      "summary": "arXiv:2508.16821v1 Announce Type: new Abstract: We introduce PuzzleJAX, a GPU-accelerated puzzle game engine and description language designed to support rapid benchmarking of tree search, reinforcement learning, and LLM reasoning abilities. Unlike existing GPU-accelerated learning environments that provide hard-coded implementations of fixed sets of games, PuzzleJAX allows dynamic compilation of any game expressible in its domain-specific language (DSL). This DSL follows PuzzleScript, which is a popular and accessible online game engine for designing puzzle games. In this paper, we validate in PuzzleJAX several hundred of the thousands of games designed in PuzzleScript by both professional designers and casual creators since its release in 2013, thereby demonstrating PuzzleJAX's coverage ",
+      "source_domain": "arxiv.org",
+      "published_ts": 1756180800,
+      "score": 6,
+      "tag": "AI/ML"
+    },
+    {
+      "id": "76a7debfef2a84e992dee9b8292a175fcc597af2",
+      "title": "Route-and-Execute: Auditable Model-Card Matching and Specialty-Level Deployment",
+      "link": "https://arxiv.org/abs/2508.16839",
+      "summary": "arXiv:2508.16839v1 Announce Type: new Abstract: Clinical workflows are fragmented as a patchwork of scripts and task-specific networks that often handle triage, task selection, and model deployment. These pipelines are rarely streamlined for data science pipeline, reducing efficiency and raising operational costs. Workflows also lack data-driven model identification (from imaging/tabular inputs) and standardized delivery of model outputs. In response, we present a practical, healthcare-first framework that uses a single vision-language model (VLM) in two complementary roles. First (Solution 1), the VLM acts as an aware model-card matcher that routes an incoming image to the appropriate specialist model via a three-stage workflow (modality -> primary abnormality -> model-card id). Checks ar",
+      "source_domain": "arxiv.org",
+      "published_ts": 1756180800,
+      "score": 6,
+      "tag": "Bio/Health"
+    },
+    {
+      "id": "82a01efb3ac755cb0156e31a47f0592f31d76173",
+      "title": "WebSight: A Vision-First Architecture for Robust Web Agents",
+      "link": "https://arxiv.org/abs/2508.16987",
+      "summary": "arXiv:2508.16987v1 Announce Type: new Abstract: We introduce WebSight, a vision-based autonomous web agent, designed to interact with web environments purely through visual perception, eliminating dependence on HTML or DOM-based inputs. Central to our approach we introduce our new model, WebSight-7B, a fine-tuned vision-language model optimized for UI element interaction, trained using LoRA on a web-focused subset of the Wave-UI-25K dataset. WebSight integrates this model into a modular multi-agent architecture, comprising planning, reasoning, vision-action, and verification agents, coordinated through an episodic memory mechanism. WebSight-7B achieves a top-1 accuracy of 58.84% on the Showdown Clicks benchmark, outperforming several larger generalist models while maintaining lower latency",
+      "source_domain": "arxiv.org",
+      "published_ts": 1756180800,
+      "score": 6,
+      "tag": "Robotics"
+    },
+    {
+      "id": "c0e2b2a1fa4b70d020e5d4e7faa532a3f4c89048",
+      "title": "PowerChain: Automating Distribution Grid Analysis with Agentic AI Workflows",
+      "link": "https://arxiv.org/abs/2508.17094",
+      "summary": "arXiv:2508.17094v1 Announce Type: new Abstract: Due to the rapid pace of electrification and decarbonization, distribution grid (DG) operation and planning are becoming more complex, necessitating advanced computational analyses to ensure grid reliability and resilience. State-of-the-art DG analyses rely on disparate workflows of complex models, functions, and data pipelines, which require expert knowledge and are challenging to automate. Many small-scale utilities and cooperatives lack a large R&D workforce and therefore cannot use advanced analysis at scale. To address this gap, we develop a novel agentic AI system, PowerChain, to solve unseen DG analysis tasks via automated agentic orchestration and large language models (LLMs) function-calling. Given a natural language query, PowerChai",
+      "source_domain": "arxiv.org",
+      "published_ts": 1756180800,
+      "score": 6,
+      "tag": "AI/ML"
+    },
+    {
+      "id": "6c3dbfb3d7e38f984384f8602c95c605a3c908c3",
+      "title": "MaRVL-QA: A Benchmark for Mathematical Reasoning over Visual Landscapes",
+      "link": "https://arxiv.org/abs/2508.17180",
+      "summary": "arXiv:2508.17180v1 Announce Type: new Abstract: A key frontier for Multimodal Large Language Models (MLLMs) is the ability to perform deep mathematical and spatial reasoning directly from images, moving beyond their established success in semantic description. Mathematical surface plots provide a rigorous testbed for this capability, as they isolate the task of reasoning from the semantic noise common in natural images. To measure progress on this frontier, we introduce MaRVL-QA (Mathematical Reasoning over Visual Landscapes), a new benchmark designed to quantitatively evaluate these core reasoning skills. The benchmark comprises two novel tasks: Topological Counting, identifying and enumerating features like local maxima; and Transformation Recognition, recognizing applied geometric trans",
+      "source_domain": "arxiv.org",
+      "published_ts": 1756180800,
+      "score": 6,
+      "tag": "AI/ML"
+    },
+    {
+      "id": "90e20afe09b80a37a88655df65355b1617abe6b2",
+      "title": "PosterGen: Aesthetic-Aware Paper-to-Poster Generation via Multi-Agent LLMs",
+      "link": "https://arxiv.org/abs/2508.17188",
+      "summary": "arXiv:2508.17188v1 Announce Type: new Abstract: Multi-agent systems built upon large language models (LLMs) have demonstrated remarkable capabilities in tackling complex compositional tasks. In this work, we apply this paradigm to the paper-to-poster generation problem, a practical yet time-consuming process faced by researchers preparing for conferences. While recent approaches have attempted to automate this task, most neglect core design and aesthetic principles, resulting in posters that require substantial manual refinement. To address these design limitations, we propose PosterGen, a multi-agent framework that mirrors the workflow of professional poster designers. It consists of four collaborative specialized agents: (1) Parser and Curator agents extract content from the paper and or",
+      "source_domain": "arxiv.org",
+      "published_ts": 1756180800,
+      "score": 6,
+      "tag": "AI/ML"
+    },
+    {
+      "id": "a25c3af4ee1fb8d51f037684044fd38b9c8c60f9",
+      "title": "From reactive to cognitive: brain-inspired spatial intelligence for embodied agents",
+      "link": "https://arxiv.org/abs/2508.17198",
+      "summary": "arXiv:2508.17198v1 Announce Type: new Abstract: Spatial cognition enables adaptive goal-directed behavior by constructing internal models of space. Robust biological systems consolidate spatial knowledge into three interconnected forms: \\textit{landmarks} for salient cues, \\textit{route knowledge} for movement trajectories, and \\textit{survey knowledge} for map-like representations. While recent advances in multi-modal large language models (MLLMs) have enabled visual-language reasoning in embodied agents, these efforts lack structured spatial memory and instead operate reactively, limiting their generalization and adaptability in complex real-world environments. Here we present Brain-inspired Spatial Cognition for Navigation (BSC-Nav), a unified framework for constructing and leveraging s",
+      "source_domain": "arxiv.org",
+      "published_ts": 1756180800,
+      "score": 6,
+      "tag": "Bio/Health"
+    },
+    {
+      "id": "a361fd13e4701061b800b1b18c59ab2d286ac000",
+      "title": "Federated Reinforcement Learning for Runtime Optimization of AI Applications in Smart Eyewears",
+      "link": "https://arxiv.org/abs/2508.17262",
+      "summary": "arXiv:2508.17262v1 Announce Type: new Abstract: Extended reality technologies are transforming fields such as healthcare, entertainment, and education, with Smart Eye-Wears (SEWs) and Artificial Intelligence (AI) playing a crucial role. However, SEWs face inherent limitations in computational power, memory, and battery life, while offloading computations to external servers is constrained by network conditions and server workload variability. To address these challenges, we propose a Federated Reinforcement Learning (FRL) framework, enabling multiple agents to train collaboratively while preserving data privacy. We implemented synchronous and asynchronous federation strategies, where models are aggregated either at fixed intervals or dynamically based on agent progress. Experimental result",
+      "source_domain": "arxiv.org",
+      "published_ts": 1756180800,
+      "score": 6,
+      "tag": "AI/ML"
+    },
+    {
+      "id": "37233be97720cc004a183d60ff4f9d96451632fb",
+      "title": "ERF-BA-TFD+: A Multimodal Model for Audio-Visual Deepfake Detection",
+      "link": "https://arxiv.org/abs/2508.17282",
+      "summary": "arXiv:2508.17282v1 Announce Type: new Abstract: Deepfake detection is a critical task in identifying manipulated multimedia content. In real-world scenarios, deepfake content can manifest across multiple modalities, including audio and video. To address this challenge, we present ERF-BA-TFD+, a novel multimodal deepfake detection model that combines enhanced receptive field (ERF) and audio-visual fusion. Our model processes both audio and video features simultaneously, leveraging their complementary information to improve detection accuracy and robustness. The key innovation of ERF-BA-TFD+ lies in its ability to model long-range dependencies within the audio-visual input, allowing it to better capture subtle discrepancies between real and fake content. In our experiments, we evaluate ERF-B",
+      "source_domain": "arxiv.org",
+      "published_ts": 1756180800,
+      "score": 6,
+      "tag": "General Tech/Science"
+    },
+    {
+      "id": "002e3f90d65d4b03d17326bafa4fc353eeb21f83",
+      "title": "MEENA (PersianMMMU): Multimodal-Multilingual Educational Exams for N-level Assessment",
+      "link": "https://arxiv.org/abs/2508.17290",
+      "summary": "arXiv:2508.17290v1 Announce Type: new Abstract: Recent advancements in large vision-language models (VLMs) have primarily focused on English, with limited attention given to other languages. To address this gap, we introduce MEENA (also known as PersianMMMU), the first dataset designed to evaluate Persian VLMs across scientific, reasoning, and human-level understanding tasks. Our dataset comprises approximately 7,500 Persian and 3,000 English questions, covering a wide range of topics such as reasoning, mathematics, physics, diagrams, charts, and Persian art and literature. Key features of MEENA include: (1) diverse subject coverage spanning various educational levels, from primary to upper secondary school, (2) rich metadata, including difficulty levels and descriptive answers, (3) origin",
+      "source_domain": "arxiv.org",
+      "published_ts": 1756180800,
+      "score": 6,
+      "tag": "General Tech/Science"
+    },
+    {
+      "id": "d6a16bd67c3e120c4f3b424c66ce9a07d53edd15",
+      "title": "Evolving Collective Cognition in Human-Agent Hybrid Societies: How Agents Form Stances and Boundaries",
+      "link": "https://arxiv.org/abs/2508.17366",
+      "summary": "arXiv:2508.17366v1 Announce Type: new Abstract: Large language models have been widely used to simulate credible human social behaviors. However, it remains unclear whether these models can demonstrate stable capacities for stance formation and identity negotiation in complex interactions, as well as how they respond to human interventions. We propose a computational multi-agent society experiment framework that integrates generative agent-based modeling with virtual ethnographic methods to investigate how group stance differentiation and social boundary formation emerge in human-agent hybrid societies. Across three studies, we find that agents exhibit endogenous stances, independent of their preset identities, and display distinct tonal preferences and response patterns to different disco",
+      "source_domain": "arxiv.org",
+      "published_ts": 1756180800,
+      "score": 6,
+      "tag": "AI/ML"
+    },
+    {
+      "id": "f6901b699356e91823a3ad0e7bd68968a522231f",
+      "title": "Large Language Models as Universal Predictors? An Empirical Study on Small Tabular Datasets",
+      "link": "https://arxiv.org/abs/2508.17391",
+      "summary": "arXiv:2508.17391v1 Announce Type: new Abstract: Large Language Models (LLMs), originally developed for natural language processing (NLP), have demonstrated the potential to generalize across modalities and domains. With their in-context learning (ICL) capabilities, LLMs can perform predictive tasks over structured inputs without explicit fine-tuning on downstream tasks. In this work, we investigate the empirical function approximation capability of LLMs on small-scale structured datasets for classification, regression and clustering tasks. We evaluate the performance of state-of-the-art LLMs (GPT-5, GPT-4o, GPT-o3, Gemini-2.5-Flash, DeepSeek-R1) under few-shot prompting and compare them against established machine learning (ML) baselines, including linear models, ensemble methods and tabul",
+      "source_domain": "arxiv.org",
+      "published_ts": 1756180800,
+      "score": 6,
+      "tag": "AI/ML"
+    },
+    {
+      "id": "ef1830c45b239af9ddc067b6db311b55ff88b8fa",
+      "title": "School of Reward Hacks: Hacking harmless tasks generalizes to misaligned behavior in LLMs",
+      "link": "https://arxiv.org/abs/2508.17511",
+      "summary": "arXiv:2508.17511v1 Announce Type: new Abstract: Reward hacking--where agents exploit flaws in imperfect reward functions rather than performing tasks as intended--poses risks for AI alignment. Reward hacking has been observed in real training runs, with coding agents learning to overwrite or tamper with test cases rather than write correct code. To study the behavior of reward hackers, we built a dataset containing over a thousand examples of reward hacking on short, low-stakes, self-contained tasks such as writing poetry and coding simple functions. We used supervised fine-tuning to train models (GPT-4.1, GPT-4.1-mini, Qwen3-32B, Qwen3-8B) to reward hack on these tasks. After fine-tuning, the models generalized to reward hacking on new settings, preferring less knowledgeable graders, and ",
+      "source_domain": "arxiv.org",
+      "published_ts": 1756180800,
+      "score": 6,
+      "tag": "AI/ML"
+    },
+    {
+      "id": "08cc47287623515a342362fab50e03d5cf7ad53b",
+      "title": "Evaluating Retrieval-Augmented Generation Strategies for Large Language Models in Travel Mode Choice Prediction",
+      "link": "https://arxiv.org/abs/2508.17527",
+      "summary": "arXiv:2508.17527v1 Announce Type: new Abstract: Accurately predicting travel mode choice is essential for effective transportation planning, yet traditional statistical and machine learning models are constrained by rigid assumptions, limited contextual reasoning, and reduced generalizability. This study explores the potential of Large Language Models (LLMs) as a more flexible and context-aware approach to travel mode choice prediction, enhanced by Retrieval-Augmented Generation (RAG) to ground predictions in empirical data. We develop a modular framework for integrating RAG into LLM-based travel mode choice prediction and evaluate four retrieval strategies: basic RAG, RAG with balanced retrieval, RAG with a cross-encoder for re-ranking, and RAG with balanced retrieval and cross-encoder fo",
+      "source_domain": "arxiv.org",
+      "published_ts": 1756180800,
+      "score": 6,
+      "tag": "AI/ML"
+    },
+    {
+      "id": "23e4863ed847cf91dd4d38abc20547f3c6e7e498",
+      "title": "TradingGroup: A Multi-Agent Trading System with Self-Reflection and Data-Synthesis",
+      "link": "https://arxiv.org/abs/2508.17565",
+      "summary": "arXiv:2508.17565v1 Announce Type: new Abstract: Recent advancements in large language models (LLMs) have enabled powerful agent-based applications in finance, particularly for sentiment analysis, financial report comprehension, and stock forecasting. However, existing systems often lack inter-agent coordination, structured self-reflection, and access to high-quality, domain-specific post-training data such as data from trading activities including both market conditions and agent decisions. These data are crucial for agents to understand the market dynamics, improve the quality of decision-making and promote effective coordination. We introduce TradingGroup, a multi-agent trading system designed to address these limitations through a self-reflective architecture and an end-to-end data-synt",
+      "source_domain": "arxiv.org",
+      "published_ts": 1756180800,
+      "score": 6,
+      "tag": "AI/ML"
+    },
+    {
+      "id": "cb76ab1b2bacd0b33afffbde1ff28543e05ff15a",
+      "title": "LLM-based Agentic Reasoning Frameworks: A Survey from Methods to Scenarios",
+      "link": "https://arxiv.org/abs/2508.17692",
+      "summary": "arXiv:2508.17692v1 Announce Type: new Abstract: Recent advances in the intrinsic reasoning capabilities of large language models (LLMs) have given rise to LLM-based agent systems that exhibit near-human performance on a variety of automated tasks. However, although these systems share similarities in terms of their use of LLMs, different reasoning frameworks of the agent system steer and organize the reasoning process in different ways. In this survey, we propose a systematic taxonomy that decomposes agentic reasoning frameworks and analyze how these frameworks dominate framework-level reasoning by comparing their applications across different scenarios. Specifically, we propose an unified formal language to further classify agentic reasoning systems into single-agent methods, tool-based m",
+      "source_domain": "arxiv.org",
+      "published_ts": 1756180800,
+      "score": 6,
+      "tag": "AI/ML"
+    },
+    {
+      "id": "2b40092f380e778d9e652c9217ae7b8193698d70",
+      "title": "AgentRAN: An Agentic AI Architecture for Autonomous Control of Open 6G Networks",
+      "link": "https://arxiv.org/abs/2508.17778",
+      "summary": "arXiv:2508.17778v1 Announce Type: new Abstract: The Open RAN movement has catalyzed a transformation toward programmable, interoperable cellular infrastructures. Yet, today's deployments still rely heavily on static control and manual operations. To move beyond this limitation, we introduce AgenRAN, an AI-native, Open RAN-aligned agentic framework that generates and orchestrates a fabric of distributed AI agents based on Natural Language (NL) intents. Unlike traditional approaches that require explicit programming, AgentRAN's LLM-powered agents interpret natural language intents, negotiate strategies through structured conversations, and orchestrate control loops across the network. AgentRAN instantiates a self-organizing hierarchy of agents that decompose complex intents across time scale",
+      "source_domain": "arxiv.org",
+      "published_ts": 1756180800,
+      "score": 6,
+      "tag": "Robotics"
+    },
+    {
+      "id": "f9ecfef5bfbed920a75383133b3ed7240562a21e",
+      "title": "Interpretable Early Failure Detection via Machine Learning and Trace Checking-based Monitoring",
+      "link": "https://arxiv.org/abs/2508.17786",
+      "summary": "arXiv:2508.17786v1 Announce Type: new Abstract: Monitoring is a runtime verification technique that allows one to check whether an ongoing computation of a system (partial trace) satisfies a given formula. It does not need a complete model of the system, but it typically requires the construction of a deterministic automaton doubly exponential in the size of the formula (in the worst case), which limits its practicality. In this paper, we show that, when considering finite, discrete traces, monitoring of pure past (co)safety fragments of Signal Temporal Logic (STL) can be reduced to trace checking, that is, evaluation of a formula over a trace, that can be performed in time polynomial in the size of the formula and the length of the trace. By exploiting such a result, we develop a GPU-acce",
+      "source_domain": "arxiv.org",
+      "published_ts": 1756180800,
+      "score": 6,
+      "tag": "AI/ML"
+    },
+    {
+      "id": "33c77e280ffe7fe1b0cdf95e8da55fa748d783d4",
+      "title": "FAIRGAMER: Evaluating Biases in the Application of Large Language Models to Video Games",
+      "link": "https://arxiv.org/abs/2508.17825",
+      "summary": "arXiv:2508.17825v1 Announce Type: new Abstract: Leveraging their advanced capabilities, Large Language Models (LLMs) demonstrate vast application potential in video games--from dynamic scene generation and intelligent NPC interactions to adaptive opponents--replacing or enhancing traditional game mechanics. However, LLMs' trustworthiness in this application has not been sufficiently explored. In this paper, we reveal that the models' inherent social biases can directly damage game balance in real-world gaming environments. To this end, we present FairGamer, the first bias evaluation Benchmark for LLMs in video game scenarios, featuring six tasks and a novel metrics ${D_lstd}$. It covers three key scenarios in games where LLMs' social biases are particularly likely to manifest: Serving as N",
+      "source_domain": "arxiv.org",
+      "published_ts": 1756180800,
+      "score": 6,
+      "tag": "AI/ML"
+    },
+    {
+      "id": "a9835f12325ce36ba2309f0b0c3c4087cfc15659",
+      "title": "Neural Algorithmic Reasoners informed Large Language Model for Multi-Agent Path Finding",
+      "link": "https://arxiv.org/abs/2508.17971",
+      "summary": "arXiv:2508.17971v1 Announce Type: new Abstract: The development and application of large language models (LLM) have demonstrated that foundational models can be utilized to solve a wide array of tasks. However, their performance in multi-agent path finding (MAPF) tasks has been less than satisfactory, with only a few studies exploring this area. MAPF is a complex problem requiring both planning and multi-agent coordination. To improve the performance of LLM in MAPF tasks, we propose a novel framework, LLM-NAR, which leverages neural algorithmic reasoners (NAR) to inform LLM for MAPF. LLM-NAR consists of three key components: an LLM for MAPF, a pre-trained graph neural network-based NAR, and a cross-attention mechanism. This is the first work to propose using a neural algorithmic reasoner t",
+      "source_domain": "arxiv.org",
+      "published_ts": 1756180800,
+      "score": 6,
+      "tag": "AI/ML"
+    },
+    {
+      "id": "741f65c464956f5cace1885c2c6cba2afca390d9",
+      "title": "PerPilot: Personalizing VLM-based Mobile Agents via Memory and Exploration",
+      "link": "https://arxiv.org/abs/2508.18040",
+      "summary": "arXiv:2508.18040v1 Announce Type: new Abstract: Vision language model (VLM)-based mobile agents show great potential for assisting users in performing instruction-driven tasks. However, these agents typically struggle with personalized instructions -- those containing ambiguous, user-specific context -- a challenge that has been largely overlooked in previous research. In this paper, we define personalized instructions and introduce PerInstruct, a novel human-annotated dataset covering diverse personalized instructions across various mobile scenarios. Furthermore, given the limited personalization capabilities of existing mobile agents, we propose PerPilot, a plug-and-play framework powered by large language models (LLMs) that enables mobile agents to autonomously perceive, understand, and",
+      "source_domain": "arxiv.org",
+      "published_ts": 1756180800,
+      "score": 6,
+      "tag": "Robotics"
+    },
+    {
+      "id": "59cbb7cba46492984c252ee5c24d8e1b778c6bce",
+      "title": "Teaching LLMs to Think Mathematically: A Critical Study of Decision-Making via Optimization",
+      "link": "https://arxiv.org/abs/2508.18091",
+      "summary": "arXiv:2508.18091v1 Announce Type: new Abstract: This paper investigates the capabilities of large language models (LLMs) in formulating and solving decision-making problems using mathematical programming. We first conduct a systematic review and meta-analysis of recent literature to assess how well LLMs understand, structure, and solve optimization problems across domains. The analysis is guided by critical review questions focusing on learning approaches, dataset designs, evaluation metrics, and prompting strategies. Our systematic evidence is complemented by targeted experiments designed to evaluate the performance of state-of-the-art LLMs in automatically generating optimization models for problems in computer networks. Using a newly constructed dataset, we apply three prompting strateg",
+      "source_domain": "arxiv.org",
+      "published_ts": 1756180800,
+      "score": 6,
+      "tag": "AI/ML"
+    },
+    {
+      "id": "007982a045fa29c98613593ce990ba64e0371aac",
+      "title": "The AI Data Scientist",
+      "link": "https://arxiv.org/abs/2508.18113",
+      "summary": "arXiv:2508.18113v1 Announce Type: new Abstract: Imagine decision-makers uploading data and, within minutes, receiving clear, actionable insights delivered straight to their fingertips. That is the promise of the AI Data Scientist, an autonomous Agent powered by large language models (LLMs) that closes the gap between evidence and action. Rather than simply writing code or responding to prompts, it reasons through questions, tests ideas, and delivers end-to-end insights at a pace far beyond traditional workflows. Guided by the scientific tenet of the hypothesis, this Agent uncovers explanatory patterns in data, evaluates their statistical significance, and uses them to inform predictive modeling. It then translates these results into recommendations that are both rigorous and accessible. At",
+      "source_domain": "arxiv.org",
+      "published_ts": 1756180800,
+      "score": 6,
+      "tag": "Robotics"
+    },
+    {
+      "id": "bb8406a7c7409fd46a154f9553c04e8ea0e293bf",
+      "title": "SEAM: Semantically Equivalent Across Modalities Benchmark for Vision-Language Models",
+      "link": "https://arxiv.org/abs/2508.18179",
+      "summary": "arXiv:2508.18179v1 Announce Type: new Abstract: Evaluating whether vision-language models (VLMs) reason consistently across representations is challenging because modality comparisons are typically confounded by task differences and asymmetric information. We introduce SEAM, a benchmark that pairs semantically equivalent inputs across four domains that have existing standardized textual and visual notations. By employing distinct notation systems across modalities, in contrast to OCR-based image-text pairing, SEAM provides a rigorous comparative assessment of the textual-symbolic and visual-spatial reasoning capabilities of VLMs. Across 21 contemporary models, we observe systematic modality imbalance: vision frequently lags language in overall performance, despite the problems containing s",
+      "source_domain": "arxiv.org",
+      "published_ts": 1756180800,
+      "score": 6,
+      "tag": "AI/ML"
+    },
+    {
+      "id": "1277418e4ffaef3ed202a68d198a292a8253bd50",
+      "title": "Efficient Computation of Blackwell Optimal Policies using Rational Functions",
+      "link": "https://arxiv.org/abs/2508.18252",
+      "summary": "arXiv:2508.18252v1 Announce Type: new Abstract: Markov Decision Problems (MDPs) provide a foundational framework for modelling sequential decision-making across diverse domains, guided by optimality criteria such as discounted and average rewards. However, these criteria have inherent limitations: discounted optimality may overly prioritise short-term rewards, while average optimality relies on strong structural assumptions. Blackwell optimality addresses these challenges, offering a robust and comprehensive criterion that ensures optimality under both discounted and average reward frameworks. Despite its theoretical appeal, existing algorithms for computing Blackwell Optimal (BO) policies are computationally expensive or hard to implement. In this paper we describe procedures for computin",
+      "source_domain": "arxiv.org",
+      "published_ts": 1756180800,
+      "score": 6,
+      "tag": "AI/ML"
+    },
+    {
+      "id": "2bb8ea902fa7edf9a60a96c85a4efd23349aff86",
+      "title": "Hermes 4 Technical Report",
+      "link": "https://arxiv.org/abs/2508.18255",
+      "summary": "arXiv:2508.18255v1 Announce Type: new Abstract: We present Hermes 4, a family of hybrid reasoning models that combine structured, multi-turn reasoning with broad instruction-following ability. We describe the challenges encountered during data curation, synthesis, training, and evaluation, and outline the solutions employed to address these challenges at scale. We comprehensively evaluate across mathematical reasoning, coding, knowledge, comprehension, and alignment benchmarks, and we report both quantitative performance and qualitative behavioral analysis. To support open research, all model weights are published publicly at https://huggingface.co/collections/NousResearch/hermes-4-collection-68a731bfd452e20816725728",
+      "source_domain": "arxiv.org",
+      "published_ts": 1756180800,
+      "score": 6,
+      "tag": "AI/ML"
+    },
+    {
+      "id": "85d1f6049d76d9406119142722ebb127fd19c62f",
+      "title": "Confidence-Modulated Speculative Decoding for Large Language Models",
+      "link": "https://arxiv.org/abs/2508.15371",
+      "summary": "arXiv:2508.15371v1 Announce Type: cross Abstract: Speculative decoding has emerged as an effective approach for accelerating autoregressive inference by parallelizing token generation through a draft-then-verify paradigm. However, existing methods rely on static drafting lengths and rigid verification criteria, limiting their adaptability across varying model uncertainties and input complexities. This paper proposes an information-theoretic framework for speculative decoding based on confidence-modulated drafting. By leveraging entropy and margin-based uncertainty measures over the drafter's output distribution, the proposed method dynamically adjusts the number of speculatively generated tokens at each iteration. This adaptive mechanism reduces rollback frequency, improves resource utiliz",
+      "source_domain": "arxiv.org",
+      "published_ts": 1756180800,
+      "score": 6,
+      "tag": "AI/ML"
+    },
+    {
+      "id": "cb14e0aa1c1ca04f0c0e6fd22b97706bf29d8f67",
+      "title": "Predicting User Grasp Intentions in Virtual Reality",
+      "link": "https://arxiv.org/abs/2508.16582",
+      "summary": "arXiv:2508.16582v1 Announce Type: cross Abstract: Predicting user intentions in virtual reality (VR) is crucial for creating immersive experiences, particularly in tasks involving complex grasping motions where accurate haptic feedback is essential. In this work, we leverage time-series data from hand movements to evaluate both classification and regression approaches across 810 trials with varied object types, sizes, and manipulations. Our findings reveal that classification models struggle to generalize across users, leading to inconsistent performance. In contrast, regression-based approaches, particularly those using Long Short Term Memory (LSTM) networks, demonstrate more robust performance, with timing errors within 0.25 seconds and distance errors around 5-20 cm in the critical two-",
+      "source_domain": "arxiv.org",
+      "published_ts": 1756180800,
+      "score": 6,
+      "tag": "General Tech/Science"
+    },
+    {
+      "id": "4ee2e750fb64ff1c33576bb8d3d6286031134391",
+      "title": "An Embodied AR Navigation Agent: Integrating BIM with Retrieval-Augmented Generation for Language Guidance",
+      "link": "https://arxiv.org/abs/2508.16602",
+      "summary": "arXiv:2508.16602v1 Announce Type: cross Abstract: Delivering intelligent and adaptive navigation assistance in augmented reality (AR) requires more than visual cues, as it demands systems capable of interpreting flexible user intent and reasoning over both spatial and semantic context. Prior AR navigation systems often rely on rigid input schemes or predefined commands, which limit the utility of rich building data and hinder natural interaction. In this work, we propose an embodied AR navigation system that integrates Building Information Modeling (BIM) with a multi-agent retrieval-augmented generation (RAG) framework to support flexible, language-driven goal retrieval and route planning. The system orchestrates three language agents, Triage, Search, and Response, built on large language ",
+      "source_domain": "arxiv.org",
+      "published_ts": 1756180800,
+      "score": 6,
+      "tag": "Robotics"
+    }
+  ]
+}
