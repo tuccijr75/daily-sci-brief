@@ -1,14 +1,13 @@
-name: Daily Sci Brief
+﻿name: Daily Sci Brief
 
 on:
   workflow_dispatch:
   schedule:
-    - cron: "0 * * * *"  # hourly UTC (guard below keeps only 5am ET + every 3h)
+    - cron: "0 * * * *"  # hourly UTC; guard limits to 5am ET + every 3h
 
 permissions:
   contents: write
   pages: write
-  id-token: write
   id-token: write
 
 concurrency:
@@ -32,6 +31,8 @@ jobs:
 
       - name: Checkout repo
         uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
 
       - name: Setup Python 3.11
         uses: actions/setup-python@v5
@@ -41,21 +42,59 @@ jobs:
 
       - name: Install dependencies
         run: |
-          python -V
           pip install --upgrade pip
-          pip install -r requirements.txt
+          if [ -f requirements.txt ]; then
+            pip install -r requirements.txt
+          else
+            pip install feedparser requests python-dateutil tldextract beautifulsoup4 pyyaml
+          fi
 
       - name: Generate site data (JSON/CSV/RSS)
         env:
           OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
+          ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
+          GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
+          SUMMARY_PROVIDER: ${{ vars.SUMMARY_PROVIDER }}
+          LLM_ENHANCE_SUMMARIES: ${{ vars.LLM_ENHANCE_SUMMARIES }}
         run: |
-          if [ ! -f scripts/gather.py ]; then
-            echo "scripts/gather.py not found"; ls -la; exit 1
-          fi
           python scripts/gather.py
           test -f docs/daily.json || (echo "daily.json missing" && exit 1)
-          test -f docs/daily.csv  || (echo "daily.csv missing" && exit 1)
-          test -f docs/feed.xml   || (echo "feed.xml missing" && exit 1)
+
+      - name: Write status file (for UI pill)
+        run: |
+          python - << 'PY'
+          import json, time, os, sys
+          j = json.load(open("docs/daily.json", "r", encoding="utf-8"))
+          # Count items
+          cnt = 0
+          for g in j.get("groups", []):
+            cnt += len(g.get("items", []))
+          status = {
+            "ok": True,
+            "generated_at": j.get("generated_at"),
+            "count": cnt,
+            "sha": os.getenv("GITHUB_SHA"),
+            "run_id": os.getenv("GITHUB_RUN_ID"),
+            "ts_unix": int(time.time())
+          }
+          os.makedirs("docs", exist_ok=True)
+          json.dump(status, open("docs/status.json","w",encoding="utf-8"), ensure_ascii=False, indent=2)
+          PY
+
+      - name: Commit archive (dates) to repo
+        if: always()
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          git config user.name  "brief-bot"
+          git config user.email "actions@users.noreply.github.com"
+          git add docs/records docs/archive.html docs/daily.json docs/status.json || true
+          if ! git diff --cached --quiet; then
+            git commit -m "archive/status: update $(date -u +%F)"
+            git push origin HEAD:${{ github.ref_name }}
+          else
+            echo "No archive/status changes to commit."
+          fi
 
       - name: Upload Pages artifact
         uses: actions/upload-pages-artifact@v3
@@ -72,4 +111,3 @@ jobs:
     steps:
       - id: deployment
         uses: actions/deploy-pages@v4
-
