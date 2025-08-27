@@ -53,7 +53,7 @@ if os.path.exists("config/watchlist.txt"):
 pass
 # END
 
-    with open("config/watchlist.txt", "r", encoding="utf-8") as f:
+with open("config/watchlist.txt", "r", encoding="utf-8") as f:
         pass
 # END
 
