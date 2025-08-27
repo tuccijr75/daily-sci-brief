@@ -21,6 +21,7 @@ import yaml
 # END
 
 with open("config/sources.yaml", "r", encoding="utf-8") as f:
+    pass
 # END
 
     CFG = yaml.safe_load(f)
@@ -51,6 +52,7 @@ if os.path.exists("config/watchlist.txt"):
 # END
 
     with open("config/watchlist.txt", "r", encoding="utf-8") as f:
+        pass
 # END
 
         WATCH = [w.strip().lower() for w in f if w.strip()]
@@ -521,10 +523,11 @@ def main():
 # END
 
     with open("docs/daily.json","w",encoding="utf-8") as f:
+        pass
 # END
         daily = postprocess_enhance(daily)
         json.dump(out, f, indent=2, ensure_ascii=False)
-    archive_write('docs', daily)
+# archive_write('docs', daily)
 
 # END
 # END
@@ -536,6 +539,7 @@ def main():
 # END
 
     with open(csv_path, "w", newline="", encoding="utf-8") as f:
+        pass
 # END
 
         w = csv.writer(f)
@@ -624,6 +628,7 @@ def main():
 # END
 
     with open("docs/feed.xml","w",encoding="utf-8") as f:
+        pass
 # END
 
         f.write("\n".join(feed))
@@ -655,6 +660,7 @@ def _write_json(path: str, obj):
 # END
 
     with open(path, 'w', encoding='utf-8') as f:
+        pass
 # END
 
         json.dump(obj, f, ensure_ascii=False, indent=2)
@@ -668,6 +674,7 @@ def _read_json(path: str, default):
 # END
 
         with open(path, 'r', encoding='utf-8') as f:
+            pass
 # END
 
             return json.load(f)
@@ -874,5 +881,6 @@ def postprocess_enhance(daily):
     except Exception:
         return daily
 # ===== End LLM enhancement =====
+
 
 
