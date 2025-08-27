@@ -1,4 +1,4 @@
-import os, re, json, hashlib, time, csv, math, textwrap
+﻿import os, re, json, hashlib, time, csv, math, textwrap
 archive_write('docs', daily)
 # END
 
@@ -686,7 +686,7 @@ archive_write('docs', daily)
 archive_write('docs', daily)
 # END
 
-        it["caveats"]      = "Peer-reviewed" if it["peer_reviewed"] else ("Preprint — not peer reviewed" if "arxiv" in it.get("source_domain","") or re.search(r"biorxiv|medrxiv", t) else "Check replication/details")
+        it["caveats"]      = "Peer-reviewed" if it["peer_reviewed"] else ("Preprint â€” not peer reviewed" if "arxiv" in it.get("source_domain","") or re.search(r"biorxiv|medrxiv", t) else "Check replication/details")
 archive_write('docs', daily)
 # END
 
@@ -902,7 +902,7 @@ archive_write('docs', daily)
 archive_write('docs', daily)
 # END
 
-    print(f"✅ Collected {out['count']} items in {len(out['groups'])} groups. CSV+RSS exported.")
+    print(f"âœ… Collected {out['count']} items in {len(out['groups'])} groups. CSV+RSS exported.")
 archive_write('docs', daily)
 # END
 
@@ -1002,7 +1002,7 @@ archive_write('docs', daily)
 archive_write('docs', daily)
 # END
 
-        # here we just use UTC date so it’s deterministic in Actions
+        # here we just use UTC date so itâ€™s deterministic in Actions
 archive_write('docs', daily)
 # END
 
@@ -1117,4 +1117,20 @@ archive_write('docs', daily)
 # ===== End helpers =====
 archive_write('docs', daily)
 # END
+
+
+# Post-pass hook to enhance all item summaries if enabled
+def postprocess_enhance(daily):
+    try:
+        for g in daily.get("groups", []):
+            for it in g.get("items", []):
+                # Only enhance short/plain summaries (skip if already good)
+                base = it.get("summary") or it.get("summary_raw") or ""
+                if base:
+                    it["summary"] = enhance_summary(it)
+        return daily
+    except Exception:
+        return daily
+
+daily = postprocess_enhance(daily)
 
