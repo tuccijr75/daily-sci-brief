@@ -18,7 +18,7 @@ h1{margin:0;font-size:18px}
 .tab{border:1px solid var(--line);background:#0e1322;color:#dbe6ff;padding:6px 10px;border-radius:999px;cursor:pointer;white-space:nowrap;font-size:13px}
 .tab.active{outline:2px solid var(--accent)}
 input[type="search"]{flex:1;min-width:200px;border:1px solid var(--line);background:#0e1220;color:var(--ink);border-radius:10px;padding:8px 10px}
-select,button.toggle{border:1px solid var(--line);background:#0e1220;color:var(--ink);border-radius:10px;padding:8px 10px}
+select,button.toggle,button.minor{border:1px solid var(--line);background:#0e1220;color:var(--ink);border-radius:10px;padding:8px 10px}
 button.toggle.active{outline:2px solid var(--accent)}
 main{max-width:1100px;margin:0 auto;padding:14px}
 .count{color:var(--muted);font-size:13px;margin:4px 6px 10px}
@@ -27,9 +27,11 @@ h2{margin:16px 6px 8px;font-size:15px;color:#cfe3ff}
 .card{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:12px}
 .title{font-weight:650;margin:4px 0 6px}
 .title a{color:var(--accent);text-decoration:none}
-.meta{display:flex;gap:8px;flex-wrap:wrap;color:var(--muted);font-size:12px}
+.meta{display:flex;gap:8px;flex-wrap:wrap;color:var(--muted);font-size:12px;align-items:center}
 .badge{border:1px solid var(--line);border-radius:999px;padding:2px 8px;font-size:12px}
 .badge.peer{color:#b8ffd1;border-color:#2a6}
+.badge.status{color:#ffe2a8;border-color:#806200}
+.badge.new{color:#ffd1d1;border-color:#a33}
 .sum{color:#eef2fb;font-size:14px;margin:6px 0}
 .bul{margin:8px 0 0 16px;color:#d6deea;font-size:13px}
 
@@ -57,6 +59,7 @@ body.compact .bul{display:none}
       <button id="peer" class="toggle" title="Peer-reviewed only">Peer-reviewed</button>
       <button id="hi" class="toggle" title="Show top N by score">Highlights</button>
       <button id="cmp" class="toggle" title="Compact list view">Compact</button>
+      <button id="share" class="minor" title="Copy link with filters">Share</button>
     </div>
   </div>
 </header>
@@ -72,6 +75,10 @@ body.compact .bul{display:none}
 </main>
 
 <script>
+const emoji = {
+  "AI/ML":"🔬","Robotics":"🤖","Bio/Health":"🧬","Chips/Materials":"🔧","Space":"🛰","General Tech/Science":"🧪"
+};
+
 const S = { data:null, active:"All", query:"", sort:"new", peer:false, hi:false, hiN:12, compact:false, flat:[] };
 const el = {
   tabs: document.getElementById('tabs'),
@@ -80,6 +87,7 @@ const el = {
   peer: document.getElementById('peer'),
   hi: document.getElementById('hi'),
   cmp: document.getElementById('cmp'),
+  share: document.getElementById('share'),
   count: document.getElementById('count'),
   stamp: document.getElementById('stamp'),
   content: document.getElementById('content')
@@ -109,14 +117,15 @@ function buildTabs(d){
   for(const c of cats){
     const b = document.createElement('button');
     b.className = 'tab' + (c===S.active?' active':'');
-    b.textContent = c;
+    const label = (c==="All") ? "All" : `${emoji[c]||""} ${c}`;
+    b.textContent = label;
     b.onclick = () => { S.active=c; save(); setHash(); render(); Array.from(el.tabs.children).forEach(x=>x.classList.remove('active')); b.classList.add('active'); };
     el.tabs.appendChild(b);
   }
   el.q.value=S.query; el.sort.value=S.sort;
-  S.peer?el.peer.classList.add('active'):el.peer.classList.remove('active');
-  S.hi?el.hi.classList.add('active'):el.hi.classList.remove('active');
-  S.compact?el.cmp.classList.add('active'):el.cmp.classList.remove('active');
+  el.peer.classList.toggle('active', S.peer);
+  el.hi.classList.toggle('active', S.hi);
+  el.cmp.classList.toggle('active', S.compact);
   document.body.classList.toggle('compact', S.compact);
 }
 
@@ -126,6 +135,7 @@ function bind(){
   el.peer.addEventListener('click', ()=>{ S.peer=!S.peer; el.peer.classList.toggle('active', S.peer); save(); setHash(); render(); });
   el.hi.addEventListener('click', ()=>{ S.hi=!S.hi; el.hi.classList.toggle('active', S.hi); save(); setHash(); render(); });
   el.cmp.addEventListener('click', ()=>{ S.compact=!S.compact; el.cmp.classList.toggle('active', S.compact); document.body.classList.toggle('compact', S.compact); save(); setHash(); render(); });
+  el.share.addEventListener('click', ()=>{ setHash(); navigator.clipboard.writeText(location.href).then(()=>{ el.share.textContent="Copied!"; setTimeout(()=>el.share.textContent="Share",1500); }); });
   window.addEventListener('hashchange', ()=>{ getHash(); document.body.classList.toggle('compact', S.compact); render(); });
 }
 
@@ -137,10 +147,8 @@ function filtered(){
     const q=S.query;
     arr = arr.filter(it => (it.title||"").toLowerCase().includes(q) || (it.summary||"").toLowerCase().includes(q) || (it.summary_raw||"").toLowerCase().includes(q));
   }
-  // sort first
   if(S.sort==="new"){ arr.sort((a,b)=>(b.published_ts||0)-(a.published_ts||0)); }
   else { arr.sort((a,b)=>(b.score||0)-(a.score||0)); }
-  // highlights-only (top N by score after other filters)
   if(S.hi){ arr = arr.slice(0, S.hiN); }
   return arr;
 }
@@ -156,7 +164,7 @@ function render(){
   const byCat={}; for(const it of items){ (byCat[it.category] ||= []).push(it); }
   const frag=document.createDocumentFragment();
   Object.keys(byCat).sort((a,b)=>a.localeCompare(b)).forEach(c=>{
-    const h=document.createElement('h2'); h.textContent=c; frag.appendChild(h);
+    const h=document.createElement('h2'); h.textContent=(c==="All")?c:`${emoji[c]||""} ${c}`; frag.appendChild(h);
     const grid=document.createElement('div'); grid.className='grid';
     byCat[c].forEach(it=>grid.appendChild(card(it)));
     frag.appendChild(grid);
@@ -167,8 +175,21 @@ function render(){
 function card(it){
   const wrap=document.createElement('article'); wrap.className='card';
   const meta=document.createElement('div'); meta.className='meta';
-  const peer = it.peer_reviewed ? `<span class="badge peer">peer-reviewed</span>` : '';
-  meta.innerHTML = `${peer} <span>${escape(it.source_domain||"")}</span> <span>•</span> <span>${it.published_ts? new Date(it.published_ts*1000).toLocaleDateString():''}</span>`;
+
+  // status pill
+  const nowSec = Date.now()/1000;
+  const isNew = it.published_ts && (nowSec - it.published_ts) < 48*3600;
+  const isTrending = (it.score||0) >= 7;
+
+  const bits = [];
+  if (it.peer_reviewed) bits.push('<span class="badge peer">peer-reviewed</span>');
+  if (isNew) bits.push('<span class="badge status new">NEW</span>');
+  else if (isTrending) bits.push('<span class="badge status">TRENDING</span>');
+  bits.push(`<span>${escape(it.source_domain||"")}</span>`);
+  if (it.published_ts) bits.push(`<span>•</span><span>${new Date(it.published_ts*1000).toLocaleDateString()}</span>`);
+
+  meta.innerHTML = bits.join(" ");
+
   const title=document.createElement('div'); title.className='title';
   title.innerHTML=`<a target="_blank" rel="noopener" href="${it.link}">${escape(it.title||"")}</a>`;
   const sum=document.createElement('div'); sum.className='sum'; sum.textContent=it.summary||it.summary_raw||"";
