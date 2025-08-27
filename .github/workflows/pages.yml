@@ -3,7 +3,7 @@ name: Build & Deploy Pages (no commits)
 on:
   workflow_dispatch:
   schedule:
-    - cron: "0 * * * *"     # hourly UTC; guarded to 5am ET + every 3h
+    - cron: "0 * * * *"  # hourly UTC; guarded to 5am ET + every 3h
 
 permissions:
   contents: read

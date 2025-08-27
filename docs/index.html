@@ -32,8 +32,12 @@ h2{margin:16px 6px 8px;font-size:15px;color:#cfe3ff}
 .badge.peer{color:#b8ffd1;border-color:#2a6}
 .sum{color:#eef2fb;font-size:14px;margin:6px 0}
 .bul{margin:8px 0 0 16px;color:#d6deea;font-size:13px}
-.footer{color:var(--muted);text-align:center;padding:20px}
-.links a{color:#9fd0ff;text-decoration:none;margin-right:12px}
+
+/* Compact mode tweaks */
+body.compact .grid{grid-template-columns:1fr}
+body.compact .card{padding:10px}
+body.compact .sum{display:none}
+body.compact .bul{display:none}
 </style>
 </head>
 <body>
@@ -51,6 +55,8 @@ h2{margin:16px 6px 8px;font-size:15px;color:#cfe3ff}
         <option value="score">Top score</option>
       </select>
       <button id="peer" class="toggle" title="Peer-reviewed only">Peer-reviewed</button>
+      <button id="hi" class="toggle" title="Show top N by score">Highlights</button>
+      <button id="cmp" class="toggle" title="Compact list view">Compact</button>
     </div>
   </div>
 </header>
@@ -58,36 +64,31 @@ h2{margin:16px 6px 8px;font-size:15px;color:#cfe3ff}
 <main>
   <div class="count" id="count"></div>
   <div id="content"></div>
-  <div class="footer">
-    <div class="links">
-      <a href="daily.csv" download>Download CSV</a>
-      <a href="feed.xml">RSS feed</a>
-      <a href="daily.json">Raw JSON</a>
-    </div>
+  <div style="color:#9fb0c9;text-align:center;padding:14px">
+    <a href="daily.csv" style="color:#9fd0ff">CSV</a> •
+    <a href="feed.xml" style="color:#9fd0ff">RSS</a> •
+    <a href="daily.json" style="color:#9fd0ff">JSON</a>
   </div>
 </main>
 
 <script>
-const S = { data:null, active:"All", query:"", sort:"new", peer:false, flat:[] };
+const S = { data:null, active:"All", query:"", sort:"new", peer:false, hi:false, hiN:12, compact:false, flat:[] };
 const el = {
   tabs: document.getElementById('tabs'),
   q: document.getElementById('q'),
   sort: document.getElementById('sort'),
   peer: document.getElementById('peer'),
+  hi: document.getElementById('hi'),
+  cmp: document.getElementById('cmp'),
   count: document.getElementById('count'),
   stamp: document.getElementById('stamp'),
   content: document.getElementById('content')
 };
 
-function save(){ localStorage.setItem('brief_state', JSON.stringify({a:S.active,q:S.query,s:S.sort,p:S.peer})) }
-function load(){ try{ const v=JSON.parse(localStorage.getItem('brief_state')||'{}'); S.active=v.a||"All"; S.query=v.q||""; S.sort=v.s||"new"; S.peer=!!v.p; }catch(e){} }
-
-function setHash(){ location.hash = encodeURIComponent(JSON.stringify({a:S.active,q:S.query,s:S.sort,p:S.peer})) }
-function getHash(){
-  if(location.hash.length>1){
-    try { const v = JSON.parse(decodeURIComponent(location.hash.slice(1))); Object.assign(S, {active:v.a||S.active, query:v.q||S.query, sort:v.s||S.sort, peer:!!v.p}); } catch {}
-  }
-}
+function save(){ localStorage.setItem('brief_state', JSON.stringify({a:S.active,q:S.query,s:S.sort,p:S.peer,h:S.hi,c:S.compact})) }
+function load(){ try{ const v=JSON.parse(localStorage.getItem('brief_state')||'{}'); S.active=v.a||"All"; S.query=v.q||""; S.sort=v.s||"new"; S.peer=!!v.p; S.hi=!!v.h; S.compact=!!v.c; }catch(e){} }
+function setHash(){ location.hash = encodeURIComponent(JSON.stringify({a:S.active,q:S.query,s:S.sort,p:S.peer,h:S.hi,c:S.compact})) }
+function getHash(){ if(location.hash.length>1){ try { const v = JSON.parse(decodeURIComponent(location.hash.slice(1))); Object.assign(S, {active:v.a??S.active, query:v.q??S.query, sort:v.s??S.sort, peer:!!v.p, hi:!!v.h, compact:!!v.c}); } catch {} } }
 
 load(); getHash();
 
@@ -96,8 +97,7 @@ fetch('daily.json?t='+Date.now())
   .then(d=>{
     S.data = d; S.flat = flatten(d);
     el.stamp.textContent = "Updated " + new Date(d.generated_at).toLocaleString();
-    buildTabs(d);
-    bind(); render();
+    buildTabs(d); bind(); render();
   })
   .catch(()=>{ el.stamp.textContent = "Offline or failed to load."; });
 
@@ -113,15 +113,20 @@ function buildTabs(d){
     b.onclick = () => { S.active=c; save(); setHash(); render(); Array.from(el.tabs.children).forEach(x=>x.classList.remove('active')); b.classList.add('active'); };
     el.tabs.appendChild(b);
   }
-  // set initial inputs
-  el.q.value=S.query; el.sort.value=S.sort; S.peer?el.peer.classList.add('active'):el.peer.classList.remove('active');
+  el.q.value=S.query; el.sort.value=S.sort;
+  S.peer?el.peer.classList.add('active'):el.peer.classList.remove('active');
+  S.hi?el.hi.classList.add('active'):el.hi.classList.remove('active');
+  S.compact?el.cmp.classList.add('active'):el.cmp.classList.remove('active');
+  document.body.classList.toggle('compact', S.compact);
 }
 
 function bind(){
   el.q.addEventListener('input', debounce(()=>{ S.query=el.q.value.trim().toLowerCase(); save(); setHash(); render(); }, 200));
   el.sort.addEventListener('change', ()=>{ S.sort=el.sort.value; save(); setHash(); render(); });
-  el.peer.addEventListener('click', ()=>{ S.peer=!S.peer; S.peer?el.peer.classList.add('active'):el.peer.classList.remove('active'); save(); setHash(); render(); });
-  window.addEventListener('hashchange', ()=>{ getHash(); render(); });
+  el.peer.addEventListener('click', ()=>{ S.peer=!S.peer; el.peer.classList.toggle('active', S.peer); save(); setHash(); render(); });
+  el.hi.addEventListener('click', ()=>{ S.hi=!S.hi; el.hi.classList.toggle('active', S.hi); save(); setHash(); render(); });
+  el.cmp.addEventListener('click', ()=>{ S.compact=!S.compact; el.cmp.classList.toggle('active', S.compact); document.body.classList.toggle('compact', S.compact); save(); setHash(); render(); });
+  window.addEventListener('hashchange', ()=>{ getHash(); document.body.classList.toggle('compact', S.compact); render(); });
 }
 
 function filtered(){
@@ -132,14 +137,21 @@ function filtered(){
     const q=S.query;
     arr = arr.filter(it => (it.title||"").toLowerCase().includes(q) || (it.summary||"").toLowerCase().includes(q) || (it.summary_raw||"").toLowerCase().includes(q));
   }
+  // sort first
   if(S.sort==="new"){ arr.sort((a,b)=>(b.published_ts||0)-(a.published_ts||0)); }
   else { arr.sort((a,b)=>(b.score||0)-(a.score||0)); }
+  // highlights-only (top N by score after other filters)
+  if(S.hi){ arr = arr.slice(0, S.hiN); }
   return arr;
 }
 
 function render(){
   const items = filtered();
-  el.count.textContent = `${items.length} result${items.length!==1?'s':''} ${S.active!=='All'?'in '+S.active:''}${S.peer?' • peer-reviewed':''}${S.query?` • search: “${S.query}”`:''}`;
+  el.count.textContent = `${items.length} result${items.length!==1?'s':''}`
+    + (S.active!=='All'?` in ${S.active}`:'')
+    + (S.peer?' • peer-reviewed':'')
+    + (S.hi?` • highlights(${S.hiN})`:'')
+    + (S.query?` • “${S.query}”`:'');
   if(items.length===0){ el.content.innerHTML = `<div class="card">No matches. Clear search or toggle filters.</div>`; return; }
   const byCat={}; for(const it of items){ (byCat[it.category] ||= []).push(it); }
   const frag=document.createDocumentFragment();
@@ -172,9 +184,7 @@ function card(it){
 
 function escape(s){return String(s).replace(/[&<>"']/g,m=>({"&":"&amp;","<":"&lt;",">":"&gt;","\"":"&quot;","'":"&#039;"}[m]))}
 function debounce(fn,ms){let t;return (...a)=>{clearTimeout(t);t=setTimeout(()=>fn(...a),ms)}}
-
-// PWA
-if ('serviceWorker' in navigator){ navigator.serviceWorker.register('./sw.js').catch(()=>{}); }
+if("serviceWorker" in navigator){ navigator.serviceWorker.register("./sw.js").catch(()=>{}); }
 </script>
 </body>
 </html>
