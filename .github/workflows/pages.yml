@@ -39,8 +39,8 @@ jobs:
 
       - name: Install deps
         run: |
-          pip install --upgrade pip
-          pip install feedparser requests python-dateutil tldextract beautifulsoup4 pyyaml
+          pip install -r requirements.txt
+          pip install -r requirements.txt
 
       - name: Generate site data (JSON/CSV/RSS)
         env:

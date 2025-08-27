@@ -1,0 +1,7 @@
+feedparser
+requests
+python-dateutil
+tldextract
+beautifulsoup4
+pyyaml
+openai
