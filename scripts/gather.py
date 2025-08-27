@@ -1,4 +1,5 @@
 import os, re, json, hashlib, time, csv, math, textwrap
+import time
 from datetime import datetime, timedelta, timezone
 import feedparser, tldextract
 from bs4 import BeautifulSoup
@@ -38,7 +39,7 @@ def norm(entry, feed_url):
         if getattr(entry, k, None):
             ts = time.mktime(getattr(entry, k))
             break
-    domain = tldextract.extract(link).registered_domain or tldextract.extract(feed_url).registered_domain
+    domain = reg_domain(\) or reg_domain(\)
     uid = hashlib.sha1((link or title).encode("utf-8")).hexdigest()
     return {
         "id": uid, "title": title, "link": link, "summary_raw": summary[:3000],
@@ -89,7 +90,29 @@ def summarize_llm(title, text):
     if not key: 
         return None
     try:
-        import requests
+import requests
+# --- added by automation: logging + timed HTTP ---
+def log(msg: str) -> None:
+    print(f"[{time.strftime('%H:%M:%S')}] {msg}", flush=True)
+
+try:
+    import requests as _requests
+    class _TimedRequests:
+        def __init__(self, base):
+            self._base = base
+        def get(self, url, *args, **kwargs):
+            kwargs.setdefault('timeout', 8)  # hard cap per-request
+            log(f"GET  {url}")
+            t0 = time.time()
+            try:
+                return self._base.get(url, *args, **kwargs)
+            finally:
+                dt = time.time() - t0
+                log(f"DONE {url} ({dt:.1f}s)")
+    requests = _TimedRequests(_requests)  # monkey-patch only .get
+except Exception as _e:
+    print("WARN: timed requests wrapper not installed:", _e, flush=True)
+# --- end added block ---import time
         prompt = f"Summarize in 2 tight sentences for a science/tech brief. Title: {title}\nContent: {text[:3000]}"
         headers = {"Authorization": f"Bearer {key}", "Content-Type":"application/json"}
         # OpenAI responses format vary by model; using /v1/chat/completions with a safe default
