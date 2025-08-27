@@ -6,8 +6,9 @@ on:
     - cron: "0 * * * *"  # hourly UTC (guard below keeps only 5am ET + every 3h)
 
 permissions:
-  contents: read
+  contents: write
   pages: write
+  id-token: write
   id-token: write
 
 concurrency:
@@ -71,3 +72,4 @@ jobs:
     steps:
       - id: deployment
         uses: actions/deploy-pages@v4
+
