@@ -1134,3 +1134,88 @@ def postprocess_enhance(daily):
 
 daily = postprocess_enhance(daily)
 
+# ===== LLM summary enhancement (OpenAI -> Anthropic -> Gemini) =====
+import time, textwrap, requests
+
+def _shorten(txt, limit=9000):
+    if txt and len(txt) > limit:
+        return txt[:limit] + " …"
+    return txt
+
+def _call_openai(prompt, api_key, model="gpt-4o-mini"):
+    url = "https://api.openai.com/v1/chat/completions"
+    headers = {"Authorization": f"Bearer {api_key}", "Content-Type": "application/json"}
+    body = {
+        "model": model,
+        "messages": [{"role": "system", "content": "You are a concise scientific editor."},
+                     {"role": "user",   "content": prompt}],
+        "temperature": 0.2,
+        "max_tokens": 280
+    }
+    r = requests.post(url, headers=headers, json=body, timeout=60); r.raise_for_status()
+    return r.json()["choices"][0]["message"]["content"].strip()
+
+def _call_anthropic(prompt, api_key, model="claude-3-haiku-20240307"):
+    url = "https://api.anthropic.com/v1/messages"
+    headers = {"x-api-key": api_key, "anthropic-version": "2023-06-01", "Content-Type":"application/json"}
+    body = {"model": model, "max_tokens": 280, "temperature": 0.2, "messages": [{"role":"user","content": prompt}]}
+    r = requests.post(url, headers=headers, json=body, timeout=60); r.raise_for_status()
+    return r.json()["content"][0]["text"].strip()
+
+def _call_gemini(prompt, api_key, model="gemini-1.5-flash"):
+    url = f"https://generativelanguage.googleapis.com/v1beta/models/{model}:generateContent?key={api_key}"
+    headers = {"Content-Type":"application/json"}
+    body = {"contents":[{"parts":[{"text": prompt}]}], "generationConfig":{"temperature":0.2,"maxOutputTokens":280}}
+    r = requests.post(url, headers=headers, json=body, timeout=60); r.raise_for_status()
+    out = r.json()
+    return out["candidates"][0]["content"]["parts"][0]["text"].strip()
+
+def _compose_prompt(title, raw_sum, url, category):
+    return textwrap.dedent(f"""
+    You rewrite scientific news abstracts into crisp 2–3 sentence summaries for a daily brief.
+    Keep it factual, neutral, and readable for a technical but busy audience.
+    Include one short impact line starting with "Why it matters:".
+    Do not use markdown headings or emojis.
+
+    Title: {title}
+    Category: {category}
+    Source URL: {url}
+
+    Raw abstract/summary:
+    {raw_sum}
+    """).strip()
+
+def enhance_summary(item):
+    if str(os.getenv("LLM_ENHANCE_SUMMARIES","0")).strip() not in ("1","true","yes"):
+        return item.get("summary") or item.get("summary_raw") or ""
+    title = item.get("title","")
+    raw_sum = item.get("summary") or item.get("summary_raw") or ""
+    url = item.get("link","")
+    category = item.get("tag") or item.get("category") or ""
+    prompt = _compose_prompt(title, _shorten(raw_sum), url, category)
+
+    provider = (os.getenv("SUMMARY_PROVIDER","openai") or "openai").lower().strip()
+    order = {"openai":["openai","anthropic","gemini"],
+             "anthropic":["anthropic","openai","gemini"],
+             "gemini":["gemini","openai","anthropic"]}.get(provider,["openai","anthropic","gemini"])
+
+    for p in order:
+        try:
+            if p=="openai" and os.getenv("OPENAI_API_KEY"):    return _call_openai(prompt, os.getenv("OPENAI_API_KEY"))
+            if p=="anthropic" and os.getenv("ANTHROPIC_API_KEY"): return _call_anthropic(prompt, os.getenv("ANTHROPIC_API_KEY"))
+            if p=="gemini" and os.getenv("GEMINI_API_KEY"):    return _call_gemini(prompt, os.getenv("GEMINI_API_KEY"))
+        except Exception:
+            time.sleep(1.0)
+    return raw_sum
+
+def postprocess_enhance(daily):
+    try:
+        for g in daily.get("groups", []):
+            for it in g.get("items", []):
+                base = it.get("summary") or it.get("summary_raw") or ""
+                if base:
+                    it["summary"] = enhance_summary(it)
+        return daily
+    except Exception:
+        return daily
+# ===== End LLM enhancement =====
