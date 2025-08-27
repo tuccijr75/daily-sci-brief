@@ -1,4 +1,5 @@
 ﻿name: Daily Sci Brief
+run-name: "Daily Sci Brief • ${{ github.ref_name }} • run ${{ github.run_number }}"
 
 on:
   workflow_dispatch:
@@ -16,7 +17,8 @@ concurrency:
 
 jobs:
   generate-brief:
-    name: "🛠 Generate Brief"
+name: Daily Sci Brief
+run-name: "Daily Sci Brief • ${{ github.ref_name }} • run ${{ github.run_number }}"
     runs-on: ubuntu-latest
     steps:
       - name: Schedule guard (5am ET + every 3h)
@@ -105,14 +107,17 @@ jobs:
           path: ./docs
 
   publish-brief:
-    name: "🚀 Publish Brief"
+name: Daily Sci Brief
+run-name: "Daily Sci Brief • ${{ github.ref_name }} • run ${{ github.run_number }}"
     runs-on: ubuntu-latest
     needs: generate-brief
     environment:
-      name: github-pages
+name: Daily Sci Brief
+run-name: "Daily Sci Brief • ${{ github.ref_name }} • run ${{ github.run_number }}"
       url: ${{ steps.deployment.outputs.page_url }}
     steps:
       - id: deployment
         uses: actions/deploy-pages@v4
+
 
 
