@@ -82,7 +82,7 @@ def strip_html(text):
 pass
 # END
 
-    return " ".join(BeautifulSoup(text or "", "html.parser").get_text(" ").split())
+return " ".join(BeautifulSoup(text or "", "html.parser").get_text(" ").split())
 # END
 # END
 
@@ -91,7 +91,7 @@ def norm(entry, feed_url):
 pass
 # END
 
-    link = entry.get("link") or entry.get("id") or ""
+link = entry.get("link") or entry.get("id") or ""
 # END
 
     title = (entry.get("title") or "").strip()
@@ -1050,6 +1050,9 @@ pass
 pass
         return daily
 # ===== End LLM enhancement =====
+
+
+
 
 
 
