@@ -50,7 +50,7 @@ WATCH = []
 
 if os.path.exists("config/watchlist.txt"):
     pass
-True    pass
+pass
 # END
 
     with open("config/watchlist.txt", "r", encoding="utf-8") as f:
@@ -79,7 +79,7 @@ SIG_RE = re.compile("|".join([
 
 def strip_html(text): 
     pass
-True    pass
+pass
 # END
 
     return " ".join(BeautifulSoup(text or "", "html.parser").get_text(" ").split())
@@ -88,7 +88,7 @@ True    pass
 
 def norm(entry, feed_url):
     pass
-True    pass
+pass
 # END
 
     link = entry.get("link") or entry.get("id") or ""
@@ -105,12 +105,12 @@ True    pass
 
     for k in ("published_parsed","updated_parsed"):
         pass
-True    pass
+pass
 # END
 
         if getattr(entry, k, None):
             pass
-True    pass
+pass
 # END
 
             ts = time.mktime(getattr(entry, k))
@@ -140,7 +140,7 @@ True    pass
 
 def tag_category(text):
     pass
-True    pass
+pass
 # END
 
     t = text.lower()
@@ -148,12 +148,12 @@ True    pass
 
     for cat, rule in CATEGORIES.items():
         pass
-True    pass
+pass
 # END
 
         if any(substr in t for substr in rule.get("any", [])):
             pass
-True    pass
+pass
 # END
 
             return cat
@@ -165,7 +165,7 @@ True    pass
 
 def is_peer_reviewed(domain, link):
     pass
-True    pass
+pass
 # END
 
     d = (domain or "").lower()
@@ -173,7 +173,7 @@ True    pass
 
     if any(d.endswith(pd) for pd in PEER_DOMAINS): 
         pass
-True    pass
+pass
 # END
 
         return True
@@ -184,7 +184,7 @@ True    pass
 
     if re.search(r"10\.\d{4,9}/[-._;()/:A-Za-z0-9]+", link): 
         pass
-True    pass
+pass
 # END
 
         return True
@@ -196,22 +196,22 @@ True    pass
 
 def score(it):
     pass
-True    pass
+pass
 # END
 
     s = 0
 # END
 
     if is_peer_reviewed(it.get("source_domain",""), it.get("link","")): s += 3
-True    pass
+pass
 # END
 
     if "arxiv.org" in it.get("source_domain",""): s += 2
-True    pass
+pass
 # END
 
     if SIG_RE.search(it.get("title","")) or SIG_RE.search(it.get("summary_raw","")): s += 2
-True    pass
+pass
 # END
 
     ts = it.get("published_ts")
@@ -219,7 +219,7 @@ True    pass
 
     if ts:
         pass
-True    pass
+pass
 # END
 
         ageh = (TODAY - datetime.fromtimestamp(ts, tz=timezone.utc)).total_seconds()/3600
@@ -235,7 +235,7 @@ True    pass
 # END
 
     if any(w in t for w in WATCH): s += 3
-True    pass
+pass
 # END
 
     return s
@@ -244,14 +244,14 @@ True    pass
 
 def summarize_extractive(text, max_sent=2):
     pass
-True    pass
+pass
 # END
 
     sents = re.split(r"(?<=[.!?])\s+", text.strip())
 # END
 
     if not sents: return ""
-True    pass
+pass
 # END
 
     # prefer sentences with signal terms
@@ -272,7 +272,7 @@ True    pass
 
 def summarize_llm(title, text):
     pass
-True    pass
+pass
 # END
 
     key = os.getenv("OPENAI_API_KEY")
@@ -280,7 +280,7 @@ True    pass
 
     if not key: 
         pass
-True    pass
+pass
 # END
 
         return None
@@ -288,7 +288,7 @@ True    pass
 
     try:
         pass
-True    pass
+pass
         pass
 # END
 
@@ -300,7 +300,7 @@ import requests
 
 def log(msg: str) -> None:
     pass
-True    pass
+pass
 # END
 
     print(f"[{time.strftime('%H:%M:%S')}] {msg}", flush=True)
@@ -309,7 +309,7 @@ True    pass
 
 try:
     pass
-True    pass
+pass
     pass
 # END
 
@@ -318,12 +318,12 @@ True    pass
 
     class _TimedRequests:
         pass
-True    pass
+pass
 # END
 
         def __init__(self, base):
             pass
-True    pass
+pass
 # END
 
             self._base = base
@@ -331,7 +331,7 @@ True    pass
 
         def get(self, url, *args, **kwargs):
             pass
-True    pass
+pass
 # END
 
             kwargs.setdefault('timeout', 8)  # hard cap per-request
@@ -345,7 +345,7 @@ True    pass
 
             try:
                 pass
-True    pass
+pass
                 pass
 # END
 
@@ -354,7 +354,7 @@ True    pass
 
             finally:
                 pass
-True    pass
+pass
 # END
 
                 dt = time.time() - t0
@@ -368,7 +368,7 @@ True    pass
 
 except Exception as _e:
     pass
-True    pass
+pass
 # END
 
     print("WARN: timed requests wrapper not installed:", _e, flush=True)
@@ -427,7 +427,7 @@ True    pass
 
     except Exception:
         pass
-True    pass
+pass
 # END
 
         return None
@@ -436,7 +436,7 @@ True    pass
 
 def main():
     pass
-True    pass
+pass
 # END
 
     items = []
@@ -444,12 +444,12 @@ True    pass
 
     for f in FEEDS:
         pass
-True    pass
+pass
 # END
 
         try:
             pass
-True    pass
+pass
             pass
 # END
 
@@ -458,7 +458,7 @@ True    pass
 
             for e in d.entries:
                 pass
-True    pass
+pass
 # END
 
                 it = norm(e, f)
@@ -469,7 +469,7 @@ True    pass
 
                 if ts and datetime.fromtimestamp(ts, tz=timezone.utc) < SINCE:
                     pass
-True    pass
+pass
 # END
 
                     continue
@@ -480,7 +480,7 @@ True    pass
 
         except Exception:
             pass
-True    pass
+pass
 # END
 
             pass
@@ -495,7 +495,7 @@ True    pass
 
     for it in items:
         pass
-True    pass
+pass
 # END
 
         key = (it["title"].strip().lower(), it.get("source_domain",""))
@@ -503,7 +503,7 @@ True    pass
 
         if key in seen: 
             pass
-True    pass
+pass
 # END
 
             continue
@@ -521,7 +521,7 @@ True    pass
 
     for it in uniq:
         pass
-True    pass
+pass
 # END
 
         text = f'{it["title"]} {it.get("summary_raw","")}'
@@ -578,7 +578,7 @@ True    pass
 
     for it in top:
         pass
-True    pass
+pass
 # END
 
         groups.setdefault(it["tag"], []).append(it)
@@ -632,12 +632,12 @@ True    pass
 
         for g in out["groups"]:
             pass
-True    pass
+pass
 # END
 
             for it in g["items"]:
                 pass
-True    pass
+pass
 # END
 
                 w.writerow([g["category"], it["title"], it["link"], it["source_domain"], it.get("published_ts",""), it["score"], it["peer_reviewed"], it["summary"]])
@@ -670,12 +670,12 @@ True    pass
 
     for g in out["groups"]:
         pass
-True    pass
+pass
 # END
 
         for it in g["items"][:12]:
             pass
-True    pass
+pass
 # END
 
             pub = ""
@@ -683,7 +683,7 @@ True    pass
 
             if it.get("published_ts"):
                 pass
-True    pass
+pass
 # END
 
                 pub = datetime.fromtimestamp(it["published_ts"], tz=timezone.utc).strftime('%a, %d %b %Y %H:%M:%S %z')
@@ -705,7 +705,7 @@ True    pass
 # END
 
             if pub: feed.append(f"<pubDate>{pub}</pubDate>")
-True    pass
+pass
 # END
 
             feed.append(f"<category>{g['category']}</category>")
@@ -734,7 +734,7 @@ True    pass
 
 if __name__ == "__main__":
     pass
-True    pass
+pass
 # END
 
     main()
@@ -746,7 +746,7 @@ True    pass
 
 def _safe_mkdir(path: str):
     pass
-True    pass
+pass
 # END
 
     os.makedirs(path, exist_ok=True)
@@ -755,7 +755,7 @@ True    pass
 
 def _write_json(path: str, obj):
     pass
-True    pass
+pass
 # END
 
     with open(path, 'w', encoding='utf-8') as f:
@@ -768,12 +768,12 @@ True    pass
 
 def _read_json(path: str, default):
     pass
-True    pass
+pass
 # END
 
     try:
         pass
-True    pass
+pass
         pass
 # END
 
@@ -786,7 +786,7 @@ True    pass
 
     except Exception:
         pass
-True    pass
+pass
 # END
 
         return default
@@ -795,7 +795,7 @@ True    pass
 
 def archive_write(docroot: str, daily_obj: dict):
     pass
-True    pass
+pass
 # END
 
     # daily_obj is the final object you already assemble (with "generated_at", "groups", etc.)
@@ -806,7 +806,7 @@ True    pass
 
     try:
         pass
-True    pass
+pass
         pass
 # END
 
@@ -821,7 +821,7 @@ True    pass
 
     except Exception:
         pass
-True    pass
+pass
 # END
 
         day = 'unknown'
@@ -862,13 +862,13 @@ True    pass
 
     try:
         pass
-True    pass
+pass
         pass
 # END
 
         for g in daily_obj.get('groups', []):
             pass
-True    pass
+pass
 # END
 
             count += len(g.get('items', []))
@@ -876,7 +876,7 @@ True    pass
 
     except Exception:
         pass
-True    pass
+pass
 # END
 
         pass
@@ -907,42 +907,42 @@ True    pass
 # Post-pass hook to enhance all item summaries if enabled
 def postprocess_enhance(daily):
     pass
-True    pass
+pass
     try:
         pass
-True    pass
+pass
         for g in daily.get("groups", []):
             pass
-True    pass
+pass
             for it in g.get("items", []):
                 pass
-True    pass
+pass
                 # Only enhance short/plain summaries (skip if already good)
                 base = it.get("summary") or it.get("summary_raw") or ""
                 if base:
                     pass
-True    pass
+pass
                     it["summary"] = enhance_summary(it)
         return daily
     except Exception:
         pass
-True    pass
+pass
         return daily
 # ===== LLM summary enhancement (OpenAI -> Anthropic -> Gemini) =====
 import time, textwrap, requests
 
 def _shorten(txt, limit=9000):
     pass
-True    pass
+pass
     if txt and len(txt) > limit:
         pass
-True    pass
+pass
         return txt[:limit] + " …"
     return txt
 
 def _call_openai(prompt, api_key, model="gpt-4o-mini"):
     pass
-True    pass
+pass
     url = "https://api.openai.com/v1/chat/completions"
     headers = {"Authorization": f"Bearer {api_key}", "Content-Type": "application/json"}
     body = {
@@ -957,7 +957,7 @@ True    pass
 
 def _call_anthropic(prompt, api_key, model="claude-3-haiku-20240307"):
     pass
-True    pass
+pass
     url = "https://api.anthropic.com/v1/messages"
     headers = {"x-api-key": api_key, "anthropic-version": "2023-06-01", "Content-Type":"application/json"}
     body = {"model": model, "max_tokens": 280, "temperature": 0.2, "messages": [{"role":"user","content": prompt}]}
@@ -966,7 +966,7 @@ True    pass
 
 def _call_gemini(prompt, api_key, model="gemini-1.5-flash"):
     pass
-True    pass
+pass
     url = f"https://generativelanguage.googleapis.com/v1beta/models/{model}:generateContent?key={api_key}"
     headers = {"Content-Type":"application/json"}
     body = {"contents":[{"parts":[{"text": prompt}]}], "generationConfig":{"temperature":0.2,"maxOutputTokens":280}}
@@ -976,7 +976,7 @@ True    pass
 
 def _compose_prompt(title, raw_sum, url, category):
     pass
-True    pass
+pass
     return textwrap.dedent(f"""
     You rewrite scientific news abstracts into crisp 2–3 sentence summaries for a daily brief.
     Keep it factual, neutral, and readable for a technical but busy audience.
@@ -993,10 +993,10 @@ True    pass
 
 def enhance_summary(item):
     pass
-True    pass
+pass
     if str(os.getenv("LLM_ENHANCE_SUMMARIES","0")).strip() not in ("1","true","yes"):
         pass
-True    pass
+pass
         return item.get("summary") or item.get("summary_raw") or ""
     title = item.get("title","")
     raw_sum = item.get("summary") or item.get("summary_raw") or ""
@@ -1011,45 +1011,47 @@ True    pass
 
     for p in order:
         pass
-True    pass
+pass
         try:
             pass
-True    pass
+pass
             if p=="openai" and os.getenv("OPENAI_API_KEY"):    return _call_openai(prompt, os.getenv("OPENAI_API_KEY"))
-True    pass
+pass
             if p=="anthropic" and os.getenv("ANTHROPIC_API_KEY"): return _call_anthropic(prompt, os.getenv("ANTHROPIC_API_KEY"))
-True    pass
+pass
             if p=="gemini" and os.getenv("GEMINI_API_KEY"):    return _call_gemini(prompt, os.getenv("GEMINI_API_KEY"))
-True    pass
+pass
         except Exception:
             pass
-True    pass
+pass
             time.sleep(1.0)
     return raw_sum
 
 def postprocess_enhance(daily):
     pass
-True    pass
+pass
     try:
         pass
-True    pass
+pass
         for g in daily.get("groups", []):
             pass
-True    pass
+pass
             for it in g.get("items", []):
                 pass
-True    pass
+pass
                 base = it.get("summary") or it.get("summary_raw") or ""
                 if base:
                     pass
-True    pass
+pass
                     it["summary"] = enhance_summary(it)
         return daily
     except Exception:
         pass
-True    pass
+pass
         return daily
 # ===== End LLM enhancement =====
+
+
 
 
 
