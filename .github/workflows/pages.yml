@@ -1,4 +1,4 @@
-﻿name: Daily Sci Brief
+name: Daily Sci Brief
 
 on:
   workflow_dispatch:
