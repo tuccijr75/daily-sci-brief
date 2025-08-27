@@ -109,7 +109,7 @@ def norm(entry, feed_url):
             break
 # END
 
-    domain = reg_domain(\) or reg_domain(\)
+    domain = reg_domain() or reg_domain()
 # END
 
     uid = hashlib.sha1((link or title).encode("utf-8")).hexdigest()
@@ -881,6 +881,8 @@ def postprocess_enhance(daily):
     except Exception:
         return daily
 # ===== End LLM enhancement =====
+
+
 
 
 
