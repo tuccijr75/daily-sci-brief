@@ -1,1 +1,73 @@
-# (paste the YAML above)
+name: Daily Sci Brief
+
+on:
+  workflow_dispatch:
+  schedule:
+    - cron: "0 * * * *"  # hourly UTC (guard below keeps only 5am ET + every 3h)
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: "pages"
+  cancel-in-progress: false
+
+jobs:
+  generate-brief:
+    name: "🛠 Generate Brief"
+    runs-on: ubuntu-latest
+    steps:
+      - name: Schedule guard (5am ET + every 3h)
+        if: ${{ github.event_name == 'schedule' }}
+        run: |
+          HOUR=$(TZ=America/New_York date +%H)
+          if [ "$HOUR" -eq 5 ] || [ $(( (10#$HOUR - 5) % 3 )) -eq 0 ]; then
+            echo "Proceeding at $HOUR:00 ET"
+          else
+            echo "Skipping at $HOUR:00 ET (not in schedule)"; exit 78
+          fi
+
+      - name: Checkout repo
+        uses: actions/checkout@v4
+
+      - name: Setup Python 3.11
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+          cache: "pip"
+
+      - name: Install dependencies
+        run: |
+          python -V
+          pip install --upgrade pip
+          pip install -r requirements.txt
+
+      - name: Generate site data (JSON/CSV/RSS)
+        env:
+          OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
+        run: |
+          if [ ! -f scripts/gather.py ]; then
+            echo "scripts/gather.py not found"; ls -la; exit 1
+          fi
+          python scripts/gather.py
+          test -f docs/daily.json || (echo "daily.json missing" && exit 1)
+          test -f docs/daily.csv  || (echo "daily.csv missing" && exit 1)
+          test -f docs/feed.xml   || (echo "feed.xml missing" && exit 1)
+
+      - name: Upload Pages artifact
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: ./docs
+
+  publish-brief:
+    name: "🚀 Publish Brief"
+    runs-on: ubuntu-latest
+    needs: generate-brief
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - id: deployment
+        uses: actions/deploy-pages@v4
