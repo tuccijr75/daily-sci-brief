@@ -3,7 +3,7 @@ name: Build & Deploy Pages (no commits)
 on:
   workflow_dispatch:
   schedule:
-    - cron: "0 * * * *"     # run hourly in UTC; we'll self-gate to ET 5am and then every 3h
+    - cron: "0 * * * *"     # hourly UTC; guarded to 5am ET + every 3h
 
 permissions:
   contents: read
@@ -18,14 +18,14 @@ jobs:
   build:
     runs-on: ubuntu-latest
     steps:
-      - name: Schedule guard (5am ET and every 3h after)
+      - name: Schedule guard (5am ET + every 3h)
         if: ${{ github.event_name == 'schedule' }}
         run: |
-          HOUR=$(TZ=America/New_York date +%H)   # 00..23 in ET with DST handled
+          HOUR=$(TZ=America/New_York date +%H)
           if [ "$HOUR" -eq 5 ] || [ $(( (10#$HOUR - 5) % 3 )) -eq 0 ]; then
             echo "Proceeding at $HOUR:00 ET"
           else
-            echo "Skipping at $HOUR:00 ET (not a scheduled window)"; exit 78
+            echo "Skipping at $HOUR:00 ET (not in schedule)"; exit 78
           fi
 
       - name: Checkout
@@ -40,12 +40,14 @@ jobs:
       - name: Install deps
         run: |
           pip install --upgrade pip
-          pip install feedparser requests python-dateutil tldextract beautifulsoup4
+          pip install feedparser requests python-dateutil tldextract beautifulsoup4 pyyaml
 
-      - name: Generate daily.json
+      - name: Generate site data (JSON/CSV/RSS)
+        env:
+          OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
         run: |
           python scripts/gather.py
-          test -f docs/daily.json && echo "Wrote docs/daily.json" || (echo "daily.json missing" && exit 1)
+          test -f docs/daily.json || (echo "daily.json missing" && exit 1)
 
       - name: Upload pages artifact
         uses: actions/upload-pages-artifact@v3

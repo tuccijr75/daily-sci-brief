@@ -1,0 +1,42 @@
+# Add/remove feeds freely; gather.py reads from here
+feeds:
+  - http://export.arxiv.org/rss/cs.AI
+  - http://export.arxiv.org/rss/cs.LG
+  - http://export.arxiv.org/rss/cs.CV
+  - http://export.arxiv.org/rss/stat.ML
+  - https://www.nature.com/subjects/artificial-intelligence.rss
+  - https://www.science.org/action/showFeed?type=etoc&feed=rss&jc=sci
+  - https://spectrum.ieee.org/feed
+  - https://www.technologyreview.com/feed/
+  - https://ai.googleblog.com/atom.xml
+  - https://openai.com/blog/rss.xml
+  - https://deepmind.google/discover.xml
+  - https://www.biorxiv.org/rss/latest.xml
+  - https://www.medrxiv.org/rss/latest.xml
+
+# simple domain tags and peer-review signals
+peer_review_domains:
+  - nature.com
+  - science.org
+  - cell.com
+  - springer.com
+  - elsevier.com
+  - pnas.org
+  - aaai.org
+  - aclweb.org
+  - ieee.org
+  - acm.org
+
+categories:
+  AI/ML:
+    any: [ai, machine learning, deep learning, transformer, llm, diffusion, rlhf, rag, agent]
+  Robotics:
+    any: [robot, robotics, embodied, control, autonomy]
+  Bio/Health:
+    any: [protein, genome, biolog, clinical, medical, drug, neuron, brain]
+  Chips/Materials:
+    any: [semiconductor, chip, wafer, lithograph, transistor, photonic, materials]
+  Space:
+    any: [space, nasa, jwst, telescope, mars, orbital, cosmology]
+  General Tech/Science:
+    any: []
