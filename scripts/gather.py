@@ -250,6 +250,7 @@ def summarize_llm(title, text):
 # END
 
     try:
+        pass
 # END
 
 import requests
@@ -266,6 +267,7 @@ def log(msg: str) -> None:
 # END
 
 try:
+    pass
 # END
 
     import requests as _requests
@@ -293,6 +295,7 @@ try:
 # END
 
             try:
+                pass
 # END
 
                 return self._base.get(url, *args, **kwargs)
@@ -384,6 +387,7 @@ def main():
 # END
 
         try:
+            pass
 # END
 
             d = feedparser.parse(f)
@@ -526,7 +530,8 @@ def main():
         pass
 # END
         daily = postprocess_enhance(daily)
-        json.dump(out, f, indent=2, ensure_ascii=False)
+        json.dump(out, f, indent=2, ensure_ascii=False)
+
 # archive_write('docs', daily)
 
 # END
@@ -671,6 +676,7 @@ def _read_json(path: str, default):
 # END
 
     try:
+        pass
 # END
 
         with open(path, 'r', encoding='utf-8') as f:
@@ -697,6 +703,7 @@ def archive_write(docroot: str, daily_obj: dict):
 # END
 
     try:
+        pass
 # END
 
         # generated_at is ISO UTC: convert to date in America/New_York on render side if needed
@@ -748,6 +755,7 @@ def archive_write(docroot: str, daily_obj: dict):
 # END
 
     try:
+        pass
 # END
 
         for g in daily_obj.get('groups', []):
