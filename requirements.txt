@@ -5,3 +5,6 @@ tldextract
 beautifulsoup4
 pyyaml
 openai
+anthropic
+google-generativeai
+
