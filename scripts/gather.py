@@ -77,7 +77,7 @@ SIG_RE = re.compile("|".join([
 # END
 # END
 
-def strip_html(text): 
+def strip_html(text):
     pass
 pass
 # END
@@ -171,7 +171,7 @@ pass
     d = (domain or "").lower()
 # END
 
-    if any(d.endswith(pd) for pd in PEER_DOMAINS): 
+    if any(d.endswith(pd) for pd in PEER_DOMAINS):
         pass
 pass
 # END
@@ -182,7 +182,7 @@ pass
     # DOI sniff
 # END
 
-    if re.search(r"10\.\d{4,9}/[-._;()/:A-Za-z0-9]+", link): 
+    if re.search(r"10\.\d{4,9}/[-._;()/:A-Za-z0-9]+", link):
         pass
 pass
 # END
@@ -278,7 +278,7 @@ pass
     key = os.getenv("OPENAI_API_KEY")
 # END
 
-    if not key: 
+    if not key:
         pass
 pass
 # END
@@ -501,7 +501,7 @@ pass
         key = (it["title"].strip().lower(), it.get("source_domain",""))
 # END
 
-        if key in seen: 
+        if key in seen:
             pass
 pass
 # END
