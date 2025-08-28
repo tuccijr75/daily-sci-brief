@@ -1,0 +1,19 @@
+name: Daily Sci Brief
+
+on:
+  workflow_dispatch:
+  schedule:
+    - cron: "0 * * * *"  # hourly UTC; guard limits to 5am ET + every 3h
+
+permissions:
+  contents: write
+  pages: write
+  id-token: write
+
+concurrency:
+  group: "pages"
+  cancel-in-progress: false
+
+jobs:
+  generate-brief:
+    name: Generate & Publish Daily Brief
