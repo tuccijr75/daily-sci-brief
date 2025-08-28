@@ -1,215 +1,299 @@
-﻿<!doctype html>
+<!doctype html>
 <html lang="en">
 <head>
-<meta charset="utf-8" />
-<meta name="viewport" content="width=device-width,initial-scale=1" />
-<link rel="manifest" href="manifest.json">
-<title>Science & AI Brief</title>
-<style>
-:root{--bg:#0f1115;--panel:#111524;--card:#151a28;--line:#262c3d;--ink:#ecf1fa;--muted:#9fb0c9;--accent:#79b8ff;--green:#32d296;--red:#ff6b6b}
-*{box-sizing:border-box} html,body{margin:0;background:var(--bg);color:var(--ink);font:15px/1.45 system-ui,-apple-system,Segoe UI,Roboto,Arial}
-header{position:sticky;top:0;background:rgba(17,21,36,.85);backdrop-filter:blur(10px);border-bottom:1px solid var(--line);z-index:10}
-.wrap{max-width:1100px;margin:0 auto;padding:12px}
-.top{display:flex;gap:10px;align-items:center;flex-wrap:wrap}
-h1{margin:0;font-size:18px}
-#stamp{margin-left:auto;color:var(--muted);font-size:12px}
-.status{display:inline-flex;align-items:center;gap:6px;border:1px solid var(--line);border-radius:999px;padding:4px 10px;font-size:12px}
-.status .dot{width:8px;height:8px;border-radius:50%}
-.controls{display:flex;gap:8px;flex-wrap:wrap;margin-top:6px}
-.tabs{display:flex;gap:8px;overflow:auto;padding:4px 0}
-.tab{border:1px solid var(--line);background:#0e1322;color:#dbe6ff;padding:6px 10px;border-radius:999px;cursor:pointer;white-space:nowrap;font-size:13px}
-.tab.active{outline:2px solid var(--accent)}
-input[type="search"]{flex:1;min-width:200px;border:1px solid var(--line);background:#0e1220;color:var(--ink);border-radius:10px;padding:8px 10px}
-select,button.toggle{border:1px solid var(--line);background:#0e1220;color:var(--ink);border-radius:10px;padding:8px 10px}
-button.toggle.active{outline:2px solid var(--accent)}
-main{max-width:1100px;margin:0 auto;padding:14px}
-.count{color:var(--muted);font-size:13px;margin:4px 6px 10px}
-h2{margin:16px 6px 8px;font-size:15px;color:#cfe3ff}
-.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:10px}
-.card{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:12px}
-.title{font-weight:650;margin:4px 0 6px}
-.title a{color:var(--accent);text-decoration:none}
-.meta{display:flex;gap:8px;flex-wrap:wrap;color:var(--muted);font-size:12px}
-.badge{border:1px solid var(--line);border-radius:999px;padding:2px 8px;font-size:12px}
-.badge.peer{color:#b8ffd1;border-color:#2a6}
-.sum{color:#eef2fb;font-size:14px;margin:6px 0}
-.bul{margin:8px 0 0 16px;color:#d6deea;font-size:13px}
-/* Compact */
-body.compact .grid{grid-template-columns:1fr}
-body.compact .card{padding:10px}
-body.compact .sum, body.compact .bul{display:none}
-</style>
-<link rel="stylesheet" href="/daily-sci-brief/assets/enhance.css">
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Science & AI Brief</title>
+  <style>
+    :root{
+      --bg:#0b0f14; --panel:#111826; --muted:#94a3b8; --text:#e6eef9;
+      --brand:#60a5fa; --chip:#1f2937; --chip-active:#0ea5e9; --ok:#22c55e; --warn:#f59e0b;
+      --card:#0f1722; --card-border:#1f2937; --pill:#0ea5e9; --link:#93c5fd; --shadow:0 6px 22px rgba(0,0,0,.35);
+      --accent1:#a78bfa; --accent2:#34d399; --accent3:#f472b6; --accent4:#f59e0b; --accent5:#38bdf8;
+      --radius:16px;
+    }
+    *{box-sizing:border-box}
+    html,body{height:100%}
+    body{
+      margin:0; background:linear-gradient(180deg,#0a0f15, #0b1220 50%, #0a0f15);
+      color:var(--text); font:16px/1.4 system-ui, -apple-system, Segoe UI, Roboto, Inter, Arial, sans-serif;
+    }
+    a{color:var(--link); text-decoration:none}
+    a:hover{text-decoration:underline}
+    header{
+      position:sticky; top:0; z-index:10;
+      background:rgba(9,14,22,.7); backdrop-filter: blur(8px);
+      border-bottom:1px solid #0f172a; box-shadow: var(--shadow);
+    }
+    .wrap{max-width:1200px; margin:0 auto; padding:18px 20px}
+    .row{display:flex; gap:14px; flex-wrap:wrap; align-items:center}
+    .title{font-weight:700; font-size:20px; letter-spacing:.25px}
+    .muted{color:var(--muted)}
+    .pill{display:inline-flex; align-items:center; gap:8px; padding:6px 10px; border-radius:999px; background:#0b1a2a; border:1px solid #0b2b43; color:#cfe7ff; font-size:12px}
+    .status{display:flex; gap:8px; align-items:center}
+    .chipbar{display:flex; gap:8px; flex-wrap:wrap}
+    .chip{
+      background:var(--chip); color:#cbd5e1; border:1px solid #273244;
+      padding:6px 10px; border-radius:999px; cursor:pointer; user-select:none; transition:.15s;
+      font-size:13px
+    }
+    .chip[data-active="1"]{background:var(--chip-active); color:#031521; border-color:transparent; font-weight:700}
+    .tools{display:flex; gap:10px; flex-wrap:wrap; margin-top:10px}
+    .input, .select, .toggle{
+      background:#0b1422; border:1px solid #1e293b; color:var(--text);
+      padding:10px 12px; border-radius:10px; outline:none; min-height:40px
+    }
+    .input{min-width:260px}
+    .toggle{display:flex; align-items:center; gap:8px; cursor:pointer}
+    .grid{display:grid; grid-template-columns:repeat(3,1fr); gap:16px; margin:18px 0 48px}
+    @media (max-width:1100px){.grid{grid-template-columns:repeat(2,1fr)}}
+    @media (max-width:720px){.grid{grid-template-columns:1fr}}
+    .card{
+      background:var(--card); border:1px solid var(--card-border); border-radius:var(--radius);
+      padding:16px 16px 14px; box-shadow: var(--shadow);
+    }
+    .card h3{margin:0 0 8px; font-size:16px; line-height:1.3}
+    .meta{display:flex; gap:10px; align-items:center; color:var(--muted); font-size:12px; margin-bottom:10px}
+    .badge{padding:2px 8px; border-radius:999px; background:#0c2135; border:1px solid #12314d; color:#bcd7ff; font-size:11px}
+    .desc{color:#c9d6e8; font-size:14px}
+    .foot{margin-top:12px; display:flex; justify-content:space-between; align-items:center}
+    .score{font-weight:700; color:var(--accent2)}
+    .btn{
+      display:inline-flex; align-items:center; gap:8px; padding:8px 10px; border-radius:10px; font-weight:600;
+      background:#0e2236; border:1px solid #16324c; color:#dbeafe; cursor:pointer
+    }
+    .btn:hover{background:#12304b}
+    /* Highlights */
+    .highlights{
+      margin:18px 0 12px; padding:14px; border-radius:var(--radius);
+      background:linear-gradient(135deg, rgba(14,165,233,.15), rgba(168,85,247,.15));
+      border:1px solid #1f3b56;
+    }
+    .high-title{display:flex; align-items:center; gap:10px; font-weight:800; letter-spacing:.3px}
+    .stars{display:flex; gap:6px}
+    .stars span{width:8px;height:8px;border-radius:999px}
+    .stars .s1{background:var(--accent5)} .stars .s2{background:var(--accent1)} .stars .s3{background:var(--accent2)} .stars .s4{background:var(--accent3)} .stars .s5{background:var(--accent4)}
+    .high-grid{display:grid; grid-template-columns:repeat(2,1fr); gap:12px; margin-top:12px}
+    @media (max-width:900px){.high-grid{grid-template-columns:1fr}}
+    .high-card{
+      background:#091320; border:1px solid #17314d; border-radius:14px; padding:12px 12px;
+    }
+    .high-card .tag{font-size:11px; color:#9cc7ff}
+    .high-card .ttl{margin:4px 0; font-weight:700}
+    .high-card .plain{color:#e8f3ff}
+    footer{border-top:1px solid #0f1930; color:var(--muted)}
+  </style>
 </head>
 <body>
-<header>
-  <div class="wrap">
-    <div class="top">
-      <h1>🔬 Science & AI Brief</h1>
-      <div class="status" id="status">
-        <span class="dot" style="background:var(--red)"></span><span>status</span>
+  <header>
+    <div class="wrap">
+      <div class="row">
+        <div class="title">🧠 Science & AI Brief</div>
+        <div class="status pill" id="statusPill">loading…</div>
+        <div class="pill" id="countPill">0 items</div>
       </div>
-      <div id="stamp">loading…</div>
+      <div class="row" style="margin-top:10px">
+        <div class="chipbar" id="chips"></div>
+        <div class="tools">
+          <input class="input" id="q" placeholder="Search titles & summaries…" />
+          <select class="select" id="sort">
+            <option value="score">Sort: Top score</option>
+            <option value="date">Sort: Newest</option>
+            <option value="alpha">Sort: A → Z</option>
+          </select>
+          <label class="toggle"><input type="checkbox" id="plain" /> Plain English</label>
+          <label class="toggle"><input type="checkbox" id="compact" /> Compact cards</label>
+        </div>
+      </div>
     </div>
-    <div class="controls">
-      <div id="tabs" class="tabs"></div>
-      <input id="q" type="search" placeholder="Search…" />
-      <select id="sort">
-        <option value="new">Newest</option>
-        <option value="score">Top score</option>
-      </select>
-      <button id="peer" class="toggle" title="Peer-reviewed only">Peer-reviewed</button>
-      <button id="hi" class="toggle" title="Show top N by score">Highlights</button>
-      <button id="cmp" class="toggle" title="Compact list view">Compact</button>
-    </div>
-  </div>
-</header>
+  </header>
 
-<main>
-  <div class="count" id="count"></div>
-  <div id="content"></div>
-  <div style="color:#9fb0c9;text-align:center;padding:14px">
-    <a href="daily.csv" style="color:#9fd0ff">CSV</a> •
-    <a href="feed.xml" style="color:#9fd0ff">RSS</a> •
-    <a href="daily.json" style="color:#9fd0ff">JSON</a> •
-    <a href="archive.html" style="color:#9fd0ff">Archive</a>
-  </div>
-</main>
+  <main class="wrap">
+    <!-- Top Highlights -->
+    <section class="highlights" id="high">
+      <div class="high-title">⭐ Top Highlights (simple takeaways)
+        <div class="stars"><span class="s1"></span><span class="s2"></span><span class="s3"></span><span class="s4"></span><span class="s5"></span></div>
+      </div>
+      <div class="high-grid" id="highGrid"></div>
+    </section>
+
+    <!-- Cards -->
+    <section class="grid" id="grid"></section>
+  </main>
+
+  <footer class="wrap muted" style="padding-bottom:40px">
+    Built from <code>daily.json</code>. UI only — pipeline untouched.
+  </footer>
 
 <script>
-const S = { data:null, active:"All", query:"", sort:"new", peer:false, hi:false, hiN:12, compact:false, flat:[] };
-const el = {
-  tabs: document.getElementById('tabs'),
-  q: document.getElementById('q'),
-  sort: document.getElementById('sort'),
-  peer: document.getElementById('peer'),
-  hi: document.getElementById('hi'),
-  cmp: document.getElementById('cmp'),
-  count: document.getElementById('count'),
-  stamp: document.getElementById('stamp'),
-  content: document.getElementById('content'),
-  status: document.getElementById('status')
+/* ------------- Data & rendering ------------- */
+const S = {
+  data: null, items: [], groups: [],
+  activeCat: 'All', q:'', plain:false, compact:false, sort:'score'
 };
 
-function save(){ localStorage.setItem('brief_state', JSON.stringify({a:S.active,q:S.query,s:S.sort,p:S.peer,h:S.hi,c:S.compact})) }
-function load(){ try{ const v=JSON.parse(localStorage.getItem('brief_state')||'{}'); S.active=v.a||"All"; S.query=v.q||""; S.sort=v.s||"new"; S.peer=!!v.p; S.hi=!!v.h; S.compact=!!v.c; }catch(e){} }
-function setHash(){ location.hash = encodeURIComponent(JSON.stringify({a:S.active,q:S.query,s:S.sort,p:S.peer,h:S.hi,c:S.compact})) }
-function getHash(){ if(location.hash.length>1){ try { const v = JSON.parse(decodeURIComponent(location.hash.slice(1))); Object.assign(S, {active:v.a??S.active, query:v.q??S.query, sort:v.s??S.sort, peer:!!v.p, hi:!!v.h, compact:!!v.c}); } catch {} } }
+const $ = s => document.querySelector(s);
+const $$ = s => document.querySelectorAll(s);
 
-load(); getHash();
-
-Promise.all([
-  fetch('daily.json?t='+Date.now()).then(r=>r.json()),
-  fetch('status.json?t='+Date.now()).then(r=>r.json()).catch(()=>({ok:false}))
-]).then(([d,st])=>{
-  S.data = d; S.flat = flatten(d);
-  el.stamp.textContent = "Updated " + new Date(d.generated_at).toLocaleString();
-
-  // Status pill
-  const dot = el.status.querySelector('.dot');
-  const label = el.status.querySelector('span:nth-child(2)');
-  if(st && st.ok){
-    dot.style.background = 'var(--green)';
-    label.textContent = `ok • ${new Date(st.ts_unix*1000).toLocaleString()}`;
-  } else {
-    dot.style.background = 'var(--red)';
-    label.textContent = 'error';
-  }
-
-  buildTabs(d); bind(); render();
-}).catch(()=>{
-  el.stamp.textContent = "Offline or failed to load.";
-});
-
-function flatten(d){ const out=[]; for(const g of d.groups){ for(const it of g.items){ out.push({...it, category:g.category}); } } return out; }
-
-function buildTabs(d){
-  el.tabs.innerHTML = "";
-  const counts = {};
-  d.groups.forEach(g => counts[g.category] = (g.items||[]).length);
-  const cats = ["All", ...d.groups.map(g=>g.category)];
-  for(const c of cats){
-    const n = (c==="All") ? S.flat.length : (counts[c]||0);
-    const b = document.createElement('button');
-    b.className = 'tab' + (c===S.active?' active':'');
-    b.textContent = `${c} (${n})`;
-    b.onclick = () => { S.active=c; save(); setHash(); render(); Array.from(el.tabs.children).forEach(x=>x.classList.remove('active')); b.classList.add('active'); };
-    el.tabs.appendChild(b);
-  }
-  el.q.value=S.query; el.sort.value=S.sort;
-  el.peer.classList.toggle('active', S.peer);
-  el.hi.classList.toggle('active', S.hi);
-  el.cmp.classList.toggle('active', S.compact);
-  document.body.classList.toggle('compact', S.compact);
+function setStatus(statusJson){
+  const pill = $('#statusPill');
+  if (!statusJson) { pill.textContent = 'no status'; return; }
+  pill.textContent = `ok • ${statusJson.generated_at || ''}`;
+}
+function setCount(n){
+  $('#countPill').textContent = `${n} items`;
 }
 
-function bind(){
-  el.q.addEventListener('input', debounce(()=>{ S.query=el.q.value.trim().toLowerCase(); save(); setHash(); render(); }, 200));
-  el.sort.addEventListener('change', ()=>{ S.sort=el.sort.value; save(); setHash(); render(); });
-  el.peer.addEventListener('click', ()=>{ S.peer=!S.peer; el.peer.classList.toggle('active', S.peer); save(); setHash(); render(); });
-  el.hi.addEventListener('click', ()=>{ S.hi=!S.hi; el.hi.classList.toggle('active', S.hi); save(); setHash(); render(); });
-  el.cmp.addEventListener('click', ()=>{ S.compact=!S.compact; el.cmp.classList.toggle('active', S.compact); document.body.classList.toggle('compact', S.compact); save(); setHash(); render(); });
-  window.addEventListener('hashchange', ()=>{ getHash(); document.body.classList.toggle('compact', S.compact); render(); });
+/* “Plain English” dumb-down (rule-based, safe) */
+function simplify(t){
+  if (!t) return '';
+  let s = String(t);
+  const swaps = [
+    [/state[- ]of[- ]the[- ]art/gi, 'best so far'],
+    [/novel|innovative|propose|proposed/gi, 'new'],
+    [/framework|architecture/gi, 'system'],
+    [/benchmark(s)?/gi, 'test(s)'],
+    [/dataset(s)?/gi, 'data'],
+    [/significant(ly)?/gi, 'a lot'],
+    [/outperform(s|ed)?/gi, 'does better than'],
+    [/demonstrate(s|d)?/gi, 'shows'],
+    [/achieve(s|d)?/gi, 'gets'],
+  ];
+  swaps.forEach(([a,b])=> s = s.replace(a,b));
+  // collapse symbols
+  s = s.replace(/\s+/g,' ').trim();
+  // keep it short
+  if (s.length > 220) s = s.slice(0, 217) + '…';
+  return s;
 }
 
-function filtered(){
-  let arr = S.flat.slice();
-  if(S.active!=="All") arr = arr.filter(it=>it.category===S.active);
-  if(S.peer) arr = arr.filter(it=>it.peer_reviewed);
-  if(S.query){
-    const q=S.query;
-    arr = arr.filter(it => (it.title||"").toLowerCase().includes(q) || (it.summary||"").toLowerCase().includes(q) || (it.summary_raw||"").toLowerCase().includes(q));
-  }
-  if(S.sort==="new"){ arr.sort((a,b)=>(b.published_ts||0)-(a.published_ts||0)); }
-  else { arr.sort((a,b)=>(b.score||0)-(a.score||0)); }
-  if(S.hi){ arr = arr.slice(0, S.hiN); }
-  return arr;
+function byScore(a,b){ return (b.score||0) - (a.score||0); }
+function byDate(a,b){ return new Date(b.date||b.published||0) - new Date(a.date||a.published||0); }
+function byAlpha(a,b){ return (a.title||'').localeCompare(b.title||''); }
+
+function pickHighlights(items){
+  // Choose top 6 by score, fallback to date
+  const arr = [...items].sort(byScore);
+  return (arr[0]?.score ? arr : [...items].sort(byDate)).slice(0,6);
 }
 
-function render(){
-  const items = filtered();
-  el.count.textContent = `${items.length} result${items.length!==1?'s':''}`
-    + (S.active!=='All'?` in ${S.active}`:'')
-    + (S.peer?' • peer-reviewed':'')
-    + (S.hi?` • highlights(${S.hiN})`:'')
-    + (S.query?` • “${S.query}”`:'');
-  if(items.length===0){ el.content.innerHTML = `<div class="card">No matches. Clear search or toggle filters.</div>`; return; }
-  const byCat={}; for(const it of items){ (byCat[it.category] ||= []).push(it); }
-  const frag=document.createDocumentFragment();
-  Object.keys(byCat).sort((a,b)=>a.localeCompare(b)).forEach(c=>{
-    const h=document.createElement('h2'); h.textContent=c; frag.appendChild(h);
-    const grid=document.createElement('div'); grid.className='grid';
-    byCat[c].forEach(it=>grid.appendChild(card(it)));
-    frag.appendChild(grid);
+function renderChips(categories){
+  const all = ['All', ...categories];
+  const el = $('#chips'); el.innerHTML = '';
+  all.forEach(c=>{
+    const chip = document.createElement('button');
+    chip.className = 'chip'; chip.textContent = c;
+    chip.dataset.active = (c===S.activeCat) ? '1' : '0';
+    chip.onclick = ()=>{ S.activeCat=c; render(); };
+    el.appendChild(chip);
   });
-  el.content.innerHTML=''; el.content.appendChild(frag);
 }
 
-function card(it){
-  const wrap=document.createElement('article'); wrap.className='card';
-  const meta=document.createElement('div'); meta.className='meta';
-  const peer = it.peer_reviewed ? `<span class="badge peer">peer-reviewed</span>` : '';
-  meta.innerHTML = `${peer} <span>${escape(it.source_domain||"")}</span> <span>•</span> <span>${it.published_ts? new Date(it.published_ts*1000).toLocaleDateString():''}</span>`;
-  const title=document.createElement('div'); title.className='title';
-  title.innerHTML=`<a target="_blank" rel="noopener" href="${it.link}">${escape(it.title||"")}</a>`;
-  const sum=document.createElement('div'); sum.className='sum'; sum.textContent=it.summary||it.summary_raw||"";
-  const ul=document.createElement('ul'); ul.className='bul';
-  ul.innerHTML = [
-    `<li><strong>What’s new:</strong> ${escape(it.why_new||"")}</li>`,
-    `<li><strong>Why it matters:</strong> ${escape(it.why_matters||"")}</li>`,
-    `<li><strong>Caveats:</strong> ${escape(it.caveats||"")}</li>`
-  ].join("");
-  wrap.append(meta,title,sum,ul);
+function makeCard(it){
+  const wrap = document.createElement('article');
+  wrap.className = 'card';
+  if (S.compact) wrap.style.padding='12px';
+
+  const cat = it.group || it.category || '';
+  const src = it.source || it.url_domain || it.domain || '';
+  const date = it.date || it.published || '';
+  const score = it.score ?? (it.rank || it.points || null);
+  const sum = S.plain ? simplify(it.summary || it.desc || it.abstract) : (it.summary || it.desc || it.abstract || '');
+
+  wrap.innerHTML = `
+    <div class="meta">
+      <span class="badge">${cat || '—'}</span>
+      ${date ? `<span class="muted">${new Date(date).toLocaleDateString()}</span>`:''}
+      ${src ? `<span class="muted">• ${src}</span>`:''}
+    </div>
+    <h3><a href="${it.url || it.link || '#'}" target="_blank" rel="noopener">${it.title || '(untitled)'}</a></h3>
+    ${sum ? `<div class="desc">${sum}</div>` : ''}
+    <div class="foot">
+      <div class="score">${score!=null ? `Score: ${score}` : ''}</div>
+      <a class="btn" href="${it.url || it.link || '#'}" target="_blank" rel="noopener">Open ↗</a>
+    </div>
+  `;
   return wrap;
 }
 
-function escape(s){return String(s).replace(/[&<>"']/g,m=>({"&":"&amp;","<":"&lt;",">":"&gt;","\"":"&quot;","'":"&#039;"}[m]))}
-function debounce(fn,ms){let t;return (...a)=>{clearTimeout(t);t=setTimeout(()=>fn(...a),ms)}}
-if("serviceWorker" in navigator){ navigator.serviceWorker.register("./sw.js").catch(()=>{}); }
+function renderHighlights(items){
+  const hg = $('#highGrid'); hg.innerHTML = '';
+  pickHighlights(items).forEach(it=>{
+    const cat = it.group || it.category || '';
+    const plain = simplify(it.summary || it.desc || it.abstract || it.title || '');
+    const url = it.url || it.link || '#';
+    const el = document.createElement('div');
+    el.className = 'high-card';
+    el.innerHTML = `
+      <div class="tag">${cat || 'General'}</div>
+      <div class="ttl"><a href="${url}" target="_blank" rel="noopener">${it.title || '(untitled)'}</a></div>
+      <div class="plain">${plain}</div>
+    `;
+    hg.appendChild(el);
+  });
+}
+
+function render(){
+  // controls state
+  const q = S.q.trim().toLowerCase();
+  const cat = S.activeCat;
+
+  // filter
+  let list = S.items.filter(it=>{
+    const inCat = (cat==='All') || ((it.group||it.category||'')===cat);
+    const inQ = !q || [it.title, it.summary, it.desc, it.abstract, it.source, it.url_domain]
+      .filter(Boolean).some(s => String(s).toLowerCase().includes(q));
+    return inCat && inQ;
+  });
+
+  // sort
+  if (S.sort==='score') list.sort(byScore);
+  else if (S.sort==='date') list.sort(byDate);
+  else list.sort(byAlpha);
+
+  // render
+  const grid = $('#grid'); grid.innerHTML = '';
+  list.forEach(it=> grid.appendChild(makeCard(it)));
+
+  setCount(list.length);
+  renderHighlights(S.items);
+  // refresh chip active states
+  $$('#chips .chip').forEach(ch => ch.dataset.active = (ch.textContent===S.activeCat?'1':'0'));
+}
+
+/* ------------- Boot ------------- */
+async function boot(){
+  try{
+    const res = await fetch('./daily.json', {cache:'no-store'});
+    const j = await res.json();
+    S.data = j;
+    setStatus({generated_at: j.generated_at});
+    // Build flat items with group
+    const items = [];
+    const cats = [];
+    (j.groups||[]).forEach(g=>{
+      const cat = g.name || g.category || g.group || 'General';
+      if (!cats.includes(cat)) cats.push(cat);
+      (g.items||[]).forEach(item=> items.push({...item, group:cat}));
+    });
+    S.groups = cats;
+    S.items = items;
+
+    renderChips(cats);
+    render();
+  }catch(e){
+    $('#grid').innerHTML = `<div class="muted">Failed to load daily.json</div>`;
+    console.error(e);
+  }
+}
+
+/* ------------- UI wiring ------------- */
+$('#q').addEventListener('input', e=>{ S.q = e.target.value; render(); });
+$('#sort').addEventListener('change', e=>{ S.sort = e.target.value; render(); });
+$('#plain').addEventListener('change', e=>{ S.plain = e.target.checked; render(); });
+$('#compact').addEventListener('change', e=>{ S.compact = e.target.checked; render(); });
+
+boot();
 </script>
-<script defer src="/daily-sci-brief/assets/enhance.js"></script>
 </body>
 </html>
-
-
-
