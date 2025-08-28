@@ -1,297 +1,382 @@
 <!doctype html>
 <html lang="en">
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>Science & AI Brief</title>
-  <style>
-    :root{
-      --bg:#0b0f14; --panel:#111826; --muted:#94a3b8; --text:#e6eef9;
-      --brand:#60a5fa; --chip:#1f2937; --chip-active:#0ea5e9; --ok:#22c55e; --warn:#f59e0b;
-      --card:#0f1722; --card-border:#1f2937; --pill:#0ea5e9; --link:#93c5fd; --shadow:0 6px 22px rgba(0,0,0,.35);
-      --accent1:#a78bfa; --accent2:#34d399; --accent3:#f472b6; --accent4:#f59e0b; --accent5:#38bdf8;
-      --radius:16px;
-    }
-    *{box-sizing:border-box}
-    html,body{height:100%}
-    body{
-      margin:0; background:linear-gradient(180deg,#0a0f15, #0b1220 50%, #0a0f15);
-      color:var(--text); font:16px/1.4 system-ui, -apple-system, Segoe UI, Roboto, Inter, Arial, sans-serif;
-    }
-    a{color:var(--link); text-decoration:none}
-    a:hover{text-decoration:underline}
-    header{
-      position:sticky; top:0; z-index:10;
-      background:rgba(9,14,22,.7); backdrop-filter: blur(8px);
-      border-bottom:1px solid #0f172a; box-shadow: var(--shadow);
-    }
-    .wrap{max-width:1200px; margin:0 auto; padding:18px 20px}
-    .row{display:flex; gap:14px; flex-wrap:wrap; align-items:center}
-    .title{font-weight:700; font-size:20px; letter-spacing:.25px}
-    .muted{color:var(--muted)}
-    .pill{display:inline-flex; align-items:center; gap:8px; padding:6px 10px; border-radius:999px; background:#0b1a2a; border:1px solid #0b2b43; color:#cfe7ff; font-size:12px}
-    .status{display:flex; gap:8px; align-items:center}
-    .chipbar{display:flex; gap:8px; flex-wrap:wrap}
-    .chip{
-      background:var(--chip); color:#cbd5e1; border:1px solid #273244;
-      padding:6px 10px; border-radius:999px; cursor:pointer; user-select:none; transition:.15s;
-      font-size:13px
-    }
-    .chip[data-active="1"]{background:var(--chip-active); color:#031521; border-color:transparent; font-weight:700}
-    .tools{display:flex; gap:10px; flex-wrap:wrap; margin-top:10px}
-    .input, .select, .toggle{
-      background:#0b1422; border:1px solid #1e293b; color:var(--text);
-      padding:10px 12px; border-radius:10px; outline:none; min-height:40px
-    }
-    .input{min-width:260px}
-    .toggle{display:flex; align-items:center; gap:8px; cursor:pointer}
-    .grid{display:grid; grid-template-columns:repeat(3,1fr); gap:16px; margin:18px 0 48px}
-    @media (max-width:1100px){.grid{grid-template-columns:repeat(2,1fr)}}
-    @media (max-width:720px){.grid{grid-template-columns:1fr}}
-    .card{
-      background:var(--card); border:1px solid var(--card-border); border-radius:var(--radius);
-      padding:16px 16px 14px; box-shadow: var(--shadow);
-    }
-    .card h3{margin:0 0 8px; font-size:16px; line-height:1.3}
-    .meta{display:flex; gap:10px; align-items:center; color:var(--muted); font-size:12px; margin-bottom:10px}
-    .badge{padding:2px 8px; border-radius:999px; background:#0c2135; border:1px solid #12314d; color:#bcd7ff; font-size:11px}
-    .desc{color:#c9d6e8; font-size:14px}
-    .foot{margin-top:12px; display:flex; justify-content:space-between; align-items:center}
-    .score{font-weight:700; color:var(--accent2)}
-    .btn{
-      display:inline-flex; align-items:center; gap:8px; padding:8px 10px; border-radius:10px; font-weight:600;
-      background:#0e2236; border:1px solid #16324c; color:#dbeafe; cursor:pointer
-    }
-    .btn:hover{background:#12304b}
-    /* Highlights */
-    .highlights{
-      margin:18px 0 12px; padding:14px; border-radius:var(--radius);
-      background:linear-gradient(135deg, rgba(14,165,233,.15), rgba(168,85,247,.15));
-      border:1px solid #1f3b56;
-    }
-    .high-title{display:flex; align-items:center; gap:10px; font-weight:800; letter-spacing:.3px}
-    .stars{display:flex; gap:6px}
-    .stars span{width:8px;height:8px;border-radius:999px}
-    .stars .s1{background:var(--accent5)} .stars .s2{background:var(--accent1)} .stars .s3{background:var(--accent2)} .stars .s4{background:var(--accent3)} .stars .s5{background:var(--accent4)}
-    .high-grid{display:grid; grid-template-columns:repeat(2,1fr); gap:12px; margin-top:12px}
-    @media (max-width:900px){.high-grid{grid-template-columns:1fr}}
-    .high-card{
-      background:#091320; border:1px solid #17314d; border-radius:14px; padding:12px 12px;
-    }
-    .high-card .tag{font-size:11px; color:#9cc7ff}
-    .high-card .ttl{margin:4px 0; font-weight:700}
-    .high-card .plain{color:#e8f3ff}
-    footer{border-top:1px solid #0f1930; color:var(--muted)}
-  </style>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>Science & AI Brief</title>
+<style>
+  :root{
+    --bg:#0b0f14; --panel:#0e1420; --panel-2:#0a1220; --text:#e9f1ff; --muted:#9fb2cc;
+    --border:#1b2a40; --brand:#7dd3fc; --brand-2:#a78bfa; --ok:#22c55e; --warn:#f59e0b;
+    --chip:#122136; --chip-active:#1e293b; --accent:#60a5fa; --radius:16px; --shadow:0 10px 30px rgba(0,0,0,.35);
+  }
+  *{box-sizing:border-box}
+  html,body{height:100%}
+  body{margin:0;background:linear-gradient(180deg,#0a0f15,#0b1220 55%,#0a0f15);color:var(--text);
+       font:14.5px/1.45 Inter, ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto;}
+  a{color:#bfe0ff;text-decoration:none} a:hover{text-decoration:underline}
+  /* Header */
+  header{position:sticky;top:0;z-index:5;background:rgba(10,16,26,.7);backdrop-filter:blur(8px);
+         border-bottom:1px solid var(--border)}
+  .wrap{max-width:1280px;margin:0 auto;padding:16px 18px}
+  .row{display:flex;gap:12px;align-items:center;flex-wrap:wrap}
+  h1{margin:0;font-size:20px;letter-spacing:.3px}
+  .pill{display:inline-flex;align-items:center;gap:8px;padding:6px 10px;border:1px solid var(--border);
+        border-radius:999px;background:#0c1829;color:#cfe3ff;font-size:12px}
+  /* Layout */
+  .layout{display:grid;grid-template-columns:270px 1fr;gap:18px;margin-top:16px}
+  @media (max-width:980px){.layout{grid-template-columns:1fr}}
+  /* Sidebar */
+  .side{background:var(--panel);border:1px solid var(--border);border-radius:var(--radius);padding:12px}
+  .group{margin-bottom:10px}
+  .group h3{margin:12px 8px 6px;font-size:12px;text-transform:uppercase;color:var(--muted);letter-spacing:.12em}
+  .chip{display:flex;justify-content:space-between;align-items:center;gap:8px;padding:8px 10px;border-radius:10px;
+        background:var(--chip);border:1px solid var(--border);cursor:pointer;margin:6px 0;color:#d7e7ff}
+  .chip[data-active="1"]{background:var(--chip-active);font-weight:700}
+  .chip small{opacity:.75}
+  .sub{padding-left:12px}
+  .sub .chip{background:#0f1b2c}
+  /* Tools */
+  .tools{display:flex;gap:10px;flex-wrap:wrap;margin-top:8px}
+  .input,.select,.btn{background:#0a1525;border:1px solid var(--border);color:var(--text);padding:10px 12px;border-radius:10px}
+  .input{min-width:260px}
+  .btn{cursor:pointer}
+  .btn.primary{background:#0f233a;border-color:#133558}
+  .btn.ghost{background:#0c1828}
+  .toggle{display:inline-flex;align-items:center;gap:8px;padding:10px;border:1px solid var(--border);border-radius:10px;background:#0a1525}
+  /* Highlights */
+  .high{background:linear-gradient(135deg, rgba(14,165,233,.12), rgba(168,85,247,.12));
+        border:1px solid var(--border);border-radius:var(--radius);padding:14px;margin-bottom:14px}
+  .high .title{display:flex;align-items:center;gap:10px;font-weight:800}
+  .highgrid{display:grid;grid-template-columns:repeat(2,1fr);gap:12px;margin-top:12px}
+  @media (max-width:900px){.highgrid{grid-template-columns:1fr}}
+  .hcard{background:#0a1322;border:1px solid var(--border);border-radius:12px;padding:10px}
+  .hcard .tag{font-size:11px;color:#9cc7ff}
+  .hcard .ttl{margin:4px 0;font-weight:700}
+  /* Cards & grid */
+  .grid{display:grid;grid-template-columns:repeat(3,1fr);gap:14px}
+  @media (max-width:1200px){.grid{grid-template-columns:repeat(2,1fr)}}
+  @media (max-width:760px){.grid{grid-template-columns:1fr}}
+  .card{background:var(--panel-2);border:1px solid var(--border);border-radius:14px;padding:14px;box-shadow:var(--shadow)}
+  .meta{display:flex;gap:8px;flex-wrap:wrap;color:var(--muted);font-size:12px;margin-bottom:6px}
+  .badge{padding:2px 8px;border-radius:999px;background:#0e2037;border:1px solid var(--border);color:#cfe3ff}
+  .c-title{margin:6px 0 6px;font-weight:700}
+  .desc{color:#d7e7ff}
+  .muted{color:var(--muted)}
+  .foot{margin-top:10px;display:flex;justify-content:space-between;align-items:center}
+  .btn.sm{padding:6px 8px}
+  /* collapse */
+  details summary{cursor:pointer;list-style:none}
+  details summary::-webkit-details-marker{display:none}
+  details .more{margin-top:8px;color:#c9dbf7}
+  /* Pagination */
+  .pager{display:flex;gap:8px;justify-content:center;margin:18px 0}
+  .pagebtn{padding:8px 10px;border:1px solid var(--border);background:#0c1828;border-radius:10px;color:#cfe3ff;cursor:pointer}
+  .pagebtn[disabled]{opacity:.5;cursor:not-allowed}
+  footer{border-top:1px solid var(--border);margin-top:24px;color:var(--muted)}
+</style>
 </head>
 <body>
-  <header>
-    <div class="wrap">
-      <div class="row">
-        <div class="title">🧠 Science & AI Brief</div>
-        <div class="status pill" id="statusPill">loading…</div>
-        <div class="pill" id="countPill">0 items</div>
-      </div>
-      <div class="row" style="margin-top:10px">
-        <div class="chipbar" id="chips"></div>
-        <div class="tools">
-          <input class="input" id="q" placeholder="Search titles & summaries…" />
-          <select class="select" id="sort">
-            <option value="score">Sort: Top score</option>
-            <option value="date">Sort: Newest</option>
-            <option value="alpha">Sort: A → Z</option>
-          </select>
-          <label class="toggle"><input type="checkbox" id="plain" /> Plain English</label>
-          <label class="toggle"><input type="checkbox" id="compact" /> Compact cards</label>
-        </div>
-      </div>
+<header>
+  <div class="wrap">
+    <div class="row">
+      <h1>🧠 Science & AI Brief</h1>
+      <div class="pill" id="statusPill">loading…</div>
+      <div class="pill" id="countPill">0 items</div>
     </div>
-  </header>
+    <div class="row tools">
+      <input class="input" id="q" placeholder="Search titles & summaries…" />
+      <select class="select" id="sort">
+        <option value="score">Sort: Top score</option>
+        <option value="date">Sort: Newest</option>
+        <option value="alpha">Sort: A → Z</option>
+      </select>
+      <label class="toggle"><input type="checkbox" id="plain" /> Plain English</label>
+      <label class="toggle"><input type="checkbox" id="compact" /> Compact</label>
+      <button class="btn ghost" id="toggleAI">AI regroup (optional)</button>
+      <button class="btn primary" id="resetAI" style="display:none">Reset groups</button>
+    </div>
+  </div>
+</header>
 
-  <main class="wrap">
-    <!-- Top Highlights -->
-    <section class="highlights" id="high">
-      <div class="high-title">⭐ Top Highlights (simple takeaways)
-        <div class="stars"><span class="s1"></span><span class="s2"></span><span class="s3"></span><span class="s4"></span><span class="s5"></span></div>
-      </div>
-      <div class="high-grid" id="highGrid"></div>
+<main class="wrap">
+  <div class="layout">
+    <aside class="side" id="sidebar">
+      <!-- dynamic category tree -->
+    </aside>
+
+    <section>
+      <!-- Highlights -->
+      <section class="high" id="high">
+        <div class="title">⭐ Top Highlights <span class="muted">(plain takeaways)</span></div>
+        <div class="highgrid" id="highGrid"></div>
+      </section>
+      <!-- Cards -->
+      <section class="grid" id="grid"></section>
+      <div class="pager" id="pager"></div>
     </section>
+  </div>
+</main>
 
-    <!-- Cards -->
-    <section class="grid" id="grid"></section>
-  </main>
-
-  <footer class="wrap muted" style="padding-bottom:40px">
-    Built from <code>daily.json</code>. UI only — pipeline untouched.
-  </footer>
+<footer class="wrap muted" style="padding-bottom:36px">UI-only. Reads <code>docs/daily.json</code>. No pipeline changes.</footer>
 
 <script>
-/* ------------- Data & rendering ------------- */
+/* -------------------- State -------------------- */
 const S = {
-  data: null, items: [], groups: [],
-  activeCat: 'All', q:'', plain:false, compact:false, sort:'score'
+  data:null, items:[], tree:{}, order:[],
+  activeMain:'All', activeSub:'', q:'', sort:'score', plain:false, compact:false,
+  page:1, perPage:12,
+  backupGroups:null, // for reset after AI regroup
 };
 
+/* -------------------- Utils -------------------- */
 const $ = s => document.querySelector(s);
-const $$ = s => document.querySelectorAll(s);
-
-function setStatus(statusJson){
-  const pill = $('#statusPill');
-  if (!statusJson) { pill.textContent = 'no status'; return; }
-  pill.textContent = `ok • ${statusJson.generated_at || ''}`;
-}
-function setCount(n){
-  $('#countPill').textContent = `${n} items`;
-}
-
-/* “Plain English” dumb-down (rule-based, safe) */
-function simplify(t){
-  if (!t) return '';
-  let s = String(t);
-  const swaps = [
-    [/state[- ]of[- ]the[- ]art/gi, 'best so far'],
-    [/novel|innovative|propose|proposed/gi, 'new'],
-    [/framework|architecture/gi, 'system'],
-    [/benchmark(s)?/gi, 'test(s)'],
-    [/dataset(s)?/gi, 'data'],
-    [/significant(ly)?/gi, 'a lot'],
-    [/outperform(s|ed)?/gi, 'does better than'],
-    [/demonstrate(s|d)?/gi, 'shows'],
-    [/achieve(s|d)?/gi, 'gets'],
-  ];
-  swaps.forEach(([a,b])=> s = s.replace(a,b));
-  // collapse symbols
-  s = s.replace(/\s+/g,' ').trim();
-  // keep it short
-  if (s.length > 220) s = s.slice(0, 217) + '…';
-  return s;
-}
-
-function byScore(a,b){ return (b.score||0) - (a.score||0); }
-function byDate(a,b){ return new Date(b.date||b.published||0) - new Date(a.date||a.published||0); }
+function setStatus(j){ $('#statusPill').textContent = j ? `ok • ${j.generated_at||''}` : '—'; }
+function setCount(n){ $('#countPill').textContent = `${n} items`; }
+function byScore(a,b){ return (b.score||0)-(a.score||0); }
+function byDate(a,b){ return new Date(b.date||b.published||0)-new Date(a.date||a.published||0); }
 function byAlpha(a,b){ return (a.title||'').localeCompare(b.title||''); }
-
-function pickHighlights(items){
-  // Choose top 6 by score, fallback to date
-  const arr = [...items].sort(byScore);
-  return (arr[0]?.score ? arr : [...items].sort(byDate)).slice(0,6);
+function simplify(t){
+  if(!t) return ''; let s=String(t);
+  const swaps=[[/(state[- ]of[- ]the[- ]art)/gi,'best so far'],[/\bnovel\b|\binnovative\b|\bpropose(d)?\b/gi,'new'],
+               [/\bframework\b|\barchitecture\b/gi,'system'],[/benchmarks?/gi,'tests'],
+               [/datasets?/gi,'data'],[/significant(ly)?/gi,'a lot'],
+               [/outperform(s|ed)?/gi,'does better than'],[/demonstrate(s|d)?/gi,'shows'],[/achieve(s|d)?/gi,'gets']];
+  swaps.forEach(([a,b])=>s=s.replace(a,b)); s=s.replace(/\s+/g,' ').trim(); if(s.length>220) s=s.slice(0,217)+'…'; return s;
 }
 
-function renderChips(categories){
-  const all = ['All', ...categories];
-  const el = $('#chips'); el.innerHTML = '';
-  all.forEach(c=>{
-    const chip = document.createElement('button');
-    chip.className = 'chip'; chip.textContent = c;
-    chip.dataset.active = (c===S.activeCat) ? '1' : '0';
-    chip.onclick = ()=>{ S.activeCat=c; render(); };
-    el.appendChild(chip);
-  });
+/* -------- Heuristic category → subcategory map (fallback) -------- */
+function keywordBuckets(it){
+  const t = (it.title+' '+(it.summary||it.abstract||'')).toLowerCase();
+  const m = it.group || it.category || 'General';
+  let sub='General';
+  const tests = [
+    ['AI/ML','Reasoning',['reason','chain-of-thought','cot','tool','agent','planner','math','solve']],
+    ['AI/ML','Multimodal',['vision','image','video','audio','speech','clip','mm','vlm','llava','gpt-4o']],
+    ['AI/ML','Efficiency',['quantization','distill','prune','efficient','compress','lossless']],
+    ['AI/ML','Safety & Eval',['safety','alignment','eval','benchmark','human eval','bias']],
+    ['AI/ML','RAG & Retrieval',['rag','retrieval','index','chunk','vector','memory']],
+    ['Robotics','Manipulation',['manipulation','grasp','arm','pick','place']],
+    ['Robotics','Navigation',['nav','slam','localization','waypoint','map','trajectory']],
+    ['Biotech','Genomics',['genome','gene','crispr','rna','protein']],
+    ['Biotech','Health AI',['medical','health','diagnosis','radiology','ct','mri']],
+    ['Systems','Hardware',['gpu','accelerator','edge','chip','fpga','asic']],
+    ['Systems','Data/Infra',['pipeline','dataset','storage','infra','throughput']],
+  ];
+  for(const [main,subName,words] of tests){
+    if((m===main||m===subName||m==='All') && words.some(w=>t.includes(w))) return {main,sub:subName};
+  }
+  return {main:m, sub};
 }
 
-function makeCard(it){
-  const wrap = document.createElement('article');
-  wrap.className = 'card';
-  if (S.compact) wrap.style.padding='12px';
-
-  const cat = it.group || it.category || '';
-  const src = it.source || it.url_domain || it.domain || '';
-  const date = it.date || it.published || '';
-  const score = it.score ?? (it.rank || it.points || null);
-  const sum = S.plain ? simplify(it.summary || it.desc || it.abstract) : (it.summary || it.desc || it.abstract || '');
-
-  wrap.innerHTML = `
-    <div class="meta">
-      <span class="badge">${cat || '—'}</span>
-      ${date ? `<span class="muted">${new Date(date).toLocaleDateString()}</span>`:''}
-      ${src ? `<span class="muted">• ${src}</span>`:''}
-    </div>
-    <h3><a href="${it.url || it.link || '#'}" target="_blank" rel="noopener">${it.title || '(untitled)'}</a></h3>
-    ${sum ? `<div class="desc">${sum}</div>` : ''}
-    <div class="foot">
-      <div class="score">${score!=null ? `Score: ${score}` : ''}</div>
-      <a class="btn" href="${it.url || it.link || '#'}" target="_blank" rel="noopener">Open ↗</a>
-    </div>
-  `;
-  return wrap;
+/* -------------------- Build category tree -------------------- */
+function buildTree(items){
+  const tree={'All':{}};
+  for(const it of items){
+    const guess = keywordBuckets(it);
+    const main = guess.main || 'General';
+    const sub  = guess.sub  || 'General';
+    if(!tree[main]) tree[main]={};
+    if(!tree[main][sub]) tree[main][sub]=0;
+    tree[main][sub]++; // count
+    // also keep All
+    if(!tree['All'][main]) tree['All'][main]=0;
+    tree['All'][main]++;
+  }
+  S.tree = tree;
+  S.order = Object.keys(tree).filter(k=>k!=='All').sort();
 }
 
-function renderHighlights(items){
-  const hg = $('#highGrid'); hg.innerHTML = '';
-  pickHighlights(items).forEach(it=>{
-    const cat = it.group || it.category || '';
-    const plain = simplify(it.summary || it.desc || it.abstract || it.title || '');
-    const url = it.url || it.link || '#';
-    const el = document.createElement('div');
-    el.className = 'high-card';
-    el.innerHTML = `
-      <div class="tag">${cat || 'General'}</div>
-      <div class="ttl"><a href="${url}" target="_blank" rel="noopener">${it.title || '(untitled)'}</a></div>
-      <div class="plain">${plain}</div>
-    `;
-    hg.appendChild(el);
-  });
-}
+/* -------------------- Sidebar render -------------------- */
+function renderSidebar(){
+  const el=$('#sidebar'); el.innerHTML='';
+  // Main
+  const makeChip=(txt,count,active,onclick)=> {
+    const d=document.createElement('div'); d.className='chip'; d.dataset.active=active?'1':'0';
+    d.innerHTML=`<span>${txt}</span><small>${count}</small>`; d.onclick=onclick; return d;
+  };
+  // All section
+  const gAll=document.createElement('div'); gAll.className='group';
+  gAll.innerHTML='<h3>Explore</h3>'; gAll.appendChild(makeChip('All', S.items.length, S.activeMain==='All', ()=>{S.activeMain='All'; S.activeSub=''; S.page=1; render();}));
+  // top-level list inside All (as subs)
+  const subWrap=document.createElement('div'); subWrap.className='sub';
+  for(const [cat,count] of Object.entries(S.tree['All']).sort((a,b)=>b[1]-a[1])){
+    subWrap.appendChild(makeChip(cat,count, S.activeMain==='All' && S.activeSub===cat, ()=>{
+      S.activeMain='All'; S.activeSub=cat; S.page=1; render();
+    }));
+  }
+  gAll.appendChild(subWrap); el.appendChild(gAll);
 
-function render(){
-  // controls state
-  const q = S.q.trim().toLowerCase();
-  const cat = S.activeCat;
-
-  // filter
-  let list = S.items.filter(it=>{
-    const inCat = (cat==='All') || ((it.group||it.category||'')===cat);
-    const inQ = !q || [it.title, it.summary, it.desc, it.abstract, it.source, it.url_domain]
-      .filter(Boolean).some(s => String(s).toLowerCase().includes(q));
-    return inCat && inQ;
-  });
-
-  // sort
-  if (S.sort==='score') list.sort(byScore);
-  else if (S.sort==='date') list.sort(byDate);
-  else list.sort(byAlpha);
-
-  // render
-  const grid = $('#grid'); grid.innerHTML = '';
-  list.forEach(it=> grid.appendChild(makeCard(it)));
-
-  setCount(list.length);
-  renderHighlights(S.items);
-  // refresh chip active states
-  $$('#chips .chip').forEach(ch => ch.dataset.active = (ch.textContent===S.activeCat?'1':'0'));
-}
-
-/* ------------- Boot ------------- */
-async function boot(){
-  try{
-    const res = await fetch('./daily.json', {cache:'no-store'});
-    const j = await res.json();
-    S.data = j;
-    setStatus({generated_at: j.generated_at});
-    // Build flat items with group
-    const items = [];
-    const cats = [];
-    (j.groups||[]).forEach(g=>{
-      const cat = g.name || g.category || g.group || 'General';
-      if (!cats.includes(cat)) cats.push(cat);
-      (g.items||[]).forEach(item=> items.push({...item, group:cat}));
-    });
-    S.groups = cats;
-    S.items = items;
-
-    renderChips(cats);
-    render();
-  }catch(e){
-    $('#grid').innerHTML = `<div class="muted">Failed to load daily.json</div>`;
-    console.error(e);
+  // Each main
+  for(const main of S.order){
+    const g=document.createElement('div'); g.className='group';
+    g.innerHTML=`<h3>${main}</h3>`;
+    g.appendChild(makeChip(main, Object.values(S.tree[main]).reduce((a,b)=>a+b,0), S.activeMain===main && !S.activeSub, ()=>{
+      S.activeMain=main; S.activeSub=''; S.page=1; render();
+    }));
+    const sub=document.createElement('div'); sub.className='sub';
+    for(const [subcat,count] of Object.entries(S.tree[main]).sort((a,b)=>b[1]-a[1])){
+      sub.appendChild(makeChip(subcat,count, S.activeMain===main && S.activeSub===subcat, ()=>{
+        S.activeMain=main; S.activeSub=subcat; S.page=1; render();
+      }));
+    }
+    g.appendChild(sub); el.appendChild(g);
   }
 }
 
-/* ------------- UI wiring ------------- */
-$('#q').addEventListener('input', e=>{ S.q = e.target.value; render(); });
-$('#sort').addEventListener('change', e=>{ S.sort = e.target.value; render(); });
-$('#plain').addEventListener('change', e=>{ S.plain = e.target.checked; render(); });
-$('#compact').addEventListener('change', e=>{ S.compact = e.target.checked; render(); });
+/* -------------------- Highlights -------------------- */
+function pickHighlights(items){
+  const arr=[...items].sort(byScore); return (arr[0]?.score?arr:[...items].sort(byDate)).slice(0,6);
+}
+function renderHighlights(items){
+  const hg=$('#highGrid'); hg.innerHTML='';
+  for(const it of pickHighlights(items)){
+    const url=it.url||it.link||'#';
+    const plain=simplify(it.summary||it.desc||it.abstract||it.title||'');
+    const el=document.createElement('div'); el.className='hcard';
+    el.innerHTML=`<div class="tag">${it.group||it.category||'General'}</div>
+      <div class="ttl"><a href="${url}" target="_blank" rel="noopener">${it.title||'(untitled)'}</a></div>
+      <div class="plain">${plain}</div>`;
+    hg.appendChild(el);
+  }
+}
+
+/* -------------------- Cards + pagination -------------------- */
+function makeCard(it){
+  const div=document.createElement('article'); div.className='card'; if(S.compact) div.style.padding='12px';
+  const cat=it.group||it.category||''; const src=it.source||it.url_domain||it.domain||'';
+  const date=it.date||it.published||''; const score=it.score??(it.rank||null);
+  const sum=S.plain ? simplify(it.summary||it.desc||it.abstract||'') : (it.summary||it.desc||it.abstract||'');
+  const more=(it.content||it.abstract_long||'');
+  div.innerHTML=`
+    <div class="meta">
+      <span class="badge">${cat||'—'}</span>
+      ${date?`<span>${new Date(date).toLocaleDateString()}</span>`:''}
+      ${src?`<span>• ${src}</span>`:''}
+    </div>
+    <div class="c-title"><a href="${it.url||it.link||'#'}" target="_blank" rel="noopener">${it.title||'(untitled)'}</a></div>
+    ${sum?`<div class="desc">${sum}</div>`:''}
+    <div class="foot">
+      <span class="muted">${score!=null?`Score: ${score}`:''}</span>
+      <details><summary class="btn sm">Details</summary><div class="more">${(more||'No extra details.').replace(/\n/g,'<br>')}</div></details>
+    </div>`;
+  return div;
+}
+function page(list){
+  const start=(S.page-1)*S.perPage; return list.slice(start, start+S.perPage);
+}
+function renderPager(total){
+  const pages=Math.max(1, Math.ceil(total/S.perPage));
+  const el=$('#pager'); el.innerHTML='';
+  const mk=(txt,dis,fn)=>{const b=document.createElement('button'); b.className='pagebtn'; b.textContent=txt; b.disabled=!!dis; b.onclick=fn; return b;}
+  el.appendChild(mk('«', S.page===1, ()=>{S.page=1; render();}));
+  el.appendChild(mk('‹', S.page===1, ()=>{S.page--; render();}));
+  el.appendChild(document.createTextNode(` Page ${S.page}/${pages} `));
+  el.appendChild(mk('›', S.page>=pages, ()=>{S.page++; render();}));
+  el.appendChild(mk('»', S.page>=pages, ()=>{S.page=pages; render();}));
+}
+
+/* -------------------- Render pipeline -------------------- */
+function render(){
+  // filter
+  const q=S.q.trim().toLowerCase();
+  let list=S.items.filter(it=>{
+    const inMain = (S.activeMain==='All') ? true : ((it.group||it.category||'')===S.activeMain);
+    const inSub  = !S.activeSub ? true :
+      (S.activeMain==='All' ? ((it.group||it.category||'')===S.activeSub) : (keywordBuckets(it).sub===S.activeSub));
+    const inQ=!q || [it.title,it.summary,it.desc,it.abstract,it.source,it.url_domain].filter(Boolean)
+                .some(s=>String(s).toLowerCase().includes(q));
+    return inMain && inSub && inQ;
+  });
+  // sort
+  if(S.sort==='score') list.sort(byScore); else if(S.sort==='date') list.sort(byDate); else list.sort(byAlpha);
+  // render
+  $('#grid').innerHTML=''; page(list).forEach(it=>$('#grid').appendChild(makeCard(it)));
+  setCount(list.length);
+  renderPager(list.length);
+  renderHighlights(S.items);
+  renderSidebar(); // refresh counts
+}
+
+/* -------------------- AI regroup (optional) -------------------- */
+/* This runs only if you explicitly click “AI regroup” and provide an API key.
+   The key is stored in memory for this tab only. */
+let AI_KEY = null;
+async function aiRegroup(items){
+  if(!AI_KEY){ AI_KEY = prompt("Enter OpenAI API key (kept only in memory for this tab). Cancel to abort."); }
+  if(!AI_KEY) return;
+
+  const model = "gpt-4o-mini";
+  // batch titles+briefs to avoid long prompts
+  const chunk = (arr,n)=>arr.reduce((a,c,i)=>(i%n?a[a.length-1].push(c):a.push([c]),a),[]);
+  const batches = chunk(items.map((it,i)=>({i,title:it.title,summary:(it.summary||it.abstract||'')})), 32);
+
+  const mapping = {};
+  for(const batch of batches){
+    const prompt = `You are organizing research/news items into (Main Category, Subcategory).
+Main categories to choose from or propose (keep list concise, professional):
+AI/ML, Robotics, Biotech, Systems, Theory, Tools, Data, Applications, Policy, General.
+Create a JSON array of objects {index, main, sub}. Sub should be short (e.g., "Reasoning", "Multimodal", "RAG", "Safety", "Genomics", etc.).
+Items:
+${batch.map(x=>`- [${x.i}] ${x.title}\n  ${x.summary}`).join('\n')}`;
+    try{
+      const r = await fetch("https://api.openai.com/v1/chat/completions",{
+        method:"POST",
+        headers:{ "Content-Type":"application/json", "Authorization":"Bearer "+AI_KEY },
+        body: JSON.stringify({
+          model, temperature:0.2,
+          messages:[{role:"system",content:"Return only valid compact JSON."},{role:"user",content:prompt}]
+        })
+      });
+      const j = await r.json();
+      const text = j.choices?.[0]?.message?.content?.trim() || "[]";
+      const arr = JSON.parse(text);
+      for(const e of arr){ mapping[e.index]={main:e.main, sub:e.sub}; }
+    }catch(e){ console.error(e); alert("AI regroup failed on one batch; using heuristics for those."); }
+  }
+
+  // apply mapping
+  S.backupGroups = S.items.map(it=>({group:it.group}));
+  for(const it of S.items){
+    const map = mapping[it.__idx];
+    if(map){
+      it.group = map.main || it.group || 'General';
+      it.sub_ai = map.sub || 'General';
+    }else{
+      const k = keywordBuckets(it);
+      it.group = k.main; it.sub_ai = k.sub;
+    }
+  }
+  buildTree(S.items); S.activeMain='All'; S.activeSub=''; S.page=1;
+  $('#resetAI').style.display='inline-block';
+  render();
+}
+
+/* -------------------- Boot -------------------- */
+async function boot(){
+  try{
+    const res = await fetch('./daily.json', {cache:'no-store'});
+    const j = await res.json(); S.data=j; setStatus({generated_at:j.generated_at});
+    const items=[]; (j.groups||[]).forEach(g=>{
+      const cat=g.name||g.category||g.group||'General';
+      (g.items||[]).forEach((it,idx)=> items.push({...it, group:cat, __idx:items.length}));
+    });
+    S.items=items; buildTree(items); renderSidebar(); render();
+  }catch(e){ console.error(e); $('#grid').innerHTML='<div class="muted">Failed to load daily.json</div>'; }
+}
+
+/* -------------------- UI wiring -------------------- */
+$('#q').addEventListener('input', e=>{ S.q=e.target.value; S.page=1; render(); });
+$('#sort').addEventListener('change', e=>{ S.sort=e.target.value; S.page=1; render(); });
+$('#plain').addEventListener('change', e=>{ S.plain=e.target.checked; render(); });
+$('#compact').addEventListener('change', e=>{ S.compact=e.target.checked; render(); });
+$('#toggleAI').addEventListener('click', ()=> aiRegroup(S.items));
+$('#resetAI').addEventListener('click', ()=>{
+  if(!S.backupGroups) return;
+  S.items.forEach((it,i)=> it.group = S.backupGroups[i].group);
+  S.backupGroups=null; buildTree(S.items); S.activeMain='All'; S.activeSub=''; S.page=1;
+  $('#resetAI').style.display='none'; render();
+});
 
 boot();
 </script>
