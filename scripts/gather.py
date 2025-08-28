@@ -31,8 +31,7 @@ archive_write('docs', daily)
 # END
 
 with open("config/sources.yaml", "r", encoding="utf-8") as f:
-archive_write('docs', daily)
-# END
+    CFG = yaml.safe_load(f)
 
     CFG = yaml.safe_load(f)
 archive_write('docs', daily)
