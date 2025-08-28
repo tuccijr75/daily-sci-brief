@@ -48,6 +48,16 @@ jobs:
             pip install feedparser requests python-dateutil tldextract beautifulsoup4 pyyaml
           fi
 
+            - name: Quick syntax gate (py_compile)
+        run: |
+          python - <<'PY'
+          import py_compile, sys
+          try:
+              py_compile.compile("scripts/gather.py", doraise=True)
+          except Exception as e:
+              print(e)
+              sys.exit(1)
+          PY
       - name: Generate site data (JSON/CSV/RSS)
         env:
           OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
@@ -109,3 +119,4 @@ jobs:
     steps:
       - id: deployment
         uses: actions/deploy-pages@v4
+
