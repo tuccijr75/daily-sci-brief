@@ -1,0 +1,35 @@
+﻿/* docs/assets/enhance.css  — additive styles */
+:root{
+  --dsb-bg:#0f1220; --dsb-card:#14182a; --dsb-muted:#8ea0b8; --dsb-accent:#69d; --dsb-chip:#1a2140;
+  --dsb-ok:#2dd4bf; --dsb-bad:#ef4444; --dsb-ring:rgba(109,151,255,.35);
+  --dsb-radius:14px;
+}
+html.dark body{background:var(--dsb-bg);}
+.dsb-toolbar{
+  position:sticky; top:0; z-index:100; backdrop-filter:saturate(1.1) blur(8px);
+  background:linear-gradient(180deg, rgba(10,14,28,.9), rgba(10,14,28,.6));
+  border-bottom:1px solid rgba(255,255,255,.06); padding:.6rem .8rem; margin-bottom:.6rem;
+}
+.dsb-row{display:flex; gap:.6rem; flex-wrap:wrap; align-items:center}
+.dsb-chip{
+  border:1px solid rgba(255,255,255,.08); background:var(--dsb-chip); color:#cfe3ff;
+  padding:.35rem .6rem; border-radius:999px; cursor:pointer; user-select:none; font-size:.85rem;
+}
+.dsb-chip[data-active="1"]{background:var(--dsb-accent); color:#061021; border-color:transparent}
+.dsb-input{
+  background:#0b1022; border:1px solid rgba(255,255,255,.1); color:#e8f1ff;
+  padding:.45rem .6rem; border-radius:10px; min-width:220px; outline:none;
+}
+.dsb-select{ composes: dsb-input; }
+.dsb-spacer{flex:1}
+.dsb-pill{color:#a9bfdc; font-size:.9rem}
+
+.dsb-compact .card,
+.dsb-compact .brief-card{padding:.75rem!important}
+.dsb-compact .card .summary,
+.dsb-compact .brief-card .summary{max-height:6.5rem; overflow:hidden}
+.dsb-card-up{
+  box-shadow:0 0 0 1px rgba(255,255,255,.08), 0 10px 30px -12px rgba(40,80,180,.4);
+  border-radius:var(--dsb-radius)!important;
+}
+.dsb-ok{color:var(--dsb-ok)} .dsb-bad{color:var(--dsb-bad)}

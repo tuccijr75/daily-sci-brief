@@ -21,6 +21,7 @@ select{border:1px solid var(--line);background:#0e1220;color:var(--ink);border-r
 .sum{font-size:14px;color:#eef2fb}
 .badge{border:1px solid var(--line);border-radius:999px;padding:2px 8px;font-size:12px;margin-left:6px}
 </style>
+<link rel="stylesheet" href="/daily-sci-brief/assets/enhance.css">
 </head>
 <body>
 <header><div class="wrap">
@@ -75,6 +76,9 @@ function loadDay(day){
 function escape(s){return String(s).replace(/[&<>"']/g,m=>({"&":"&amp;","<":"&lt;",">":"&gt;","\"":"&quot;","'":"&#039;"}[m]))}
 if("serviceWorker" in navigator){ navigator.serviceWorker.register("./sw.js").catch(()=>{}); }
 </script>
+<script defer src="/daily-sci-brief/assets/enhance.js"></script>
 </body>
 </html>
+
+
 

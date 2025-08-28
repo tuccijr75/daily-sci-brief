@@ -39,6 +39,7 @@ body.compact .grid{grid-template-columns:1fr}
 body.compact .card{padding:10px}
 body.compact .sum, body.compact .bul{display:none}
 </style>
+<link rel="stylesheet" href="/daily-sci-brief/assets/enhance.css">
 </head>
 <body>
 <header>
@@ -206,6 +207,9 @@ function escape(s){return String(s).replace(/[&<>"']/g,m=>({"&":"&amp;","<":"&lt
 function debounce(fn,ms){let t;return (...a)=>{clearTimeout(t);t=setTimeout(()=>fn(...a),ms)}}
 if("serviceWorker" in navigator){ navigator.serviceWorker.register("./sw.js").catch(()=>{}); }
 </script>
+<script defer src="/daily-sci-brief/assets/enhance.js"></script>
 </body>
 </html>
+
+
 
